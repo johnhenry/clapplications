@@ -15,7 +15,15 @@ cd "$PROVIDER_DIR/chatterbox-tts"
 # Create virtual environment
 if [ ! -d "venv" ]; then
     echo "📦 Creating Python virtual environment..."
-    python3 -m venv venv
+    # Use Python 3.11 or 3.12 (chatterbox-tts requires numpy that doesn't build on 3.13+)
+    if command -v python3.11 &> /dev/null; then
+        python3.11 -m venv venv
+    elif command -v python3.12 &> /dev/null; then
+        python3.12 -m venv venv
+    else
+        echo "⚠️  Warning: Python 3.11 or 3.12 not found, using default python3 (may fail on 3.13+)"
+        python3 -m venv venv
+    fi
     echo "✓ Created virtual environment"
 else
     echo "✓ Virtual environment already exists"
