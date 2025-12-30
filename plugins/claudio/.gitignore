@@ -1,0 +1,18 @@
+# Provider installations
+providers/*/whisper.cpp/
+providers/*/chatterbox-tts/
+providers/*/venv/
+providers/*/build/
+
+# State file (user-specific)
+state.json
+
+# Python
+*.pyc
+__pycache__/
+*.egg-info/
+venv/
+.venv/
+
+# Logs
+*.log

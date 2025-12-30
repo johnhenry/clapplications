@@ -1,0 +1,24 @@
+{
+  "name": "clapplications",
+  "owner": {
+    "name": "John Henry"
+  },
+  "metadata": {
+    "description": "Claude Code plugin marketplace for voice communications and other utilities",
+    "version": "1.0.0",
+    "pluginRoot": "./plugins"
+  },
+  "plugins": [
+    {
+      "name": "claudio",
+      "source": "./plugins/claudio",
+      "description": "Voice mode for Claude Code with Whisper STT and Chatterbox TTS",
+      "version": "1.0.0",
+      "author": {
+        "name": "John Henry"
+      },
+      "category": "utilities",
+      "tags": ["voice", "audio", "communication", "tts", "stt"]
+    }
+  ]
+}
