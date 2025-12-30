@@ -25,9 +25,9 @@ cd "$PROVIDER_DIR/chatterbox-tts"
 nohup ./venv/bin/python server.py > "$LOG_FILE" 2>&1 &
 SERVER_PID=$!
 
-# Wait for server to start (up to 10 minutes for first-time model download)
+# Wait for server to start (up to 20 minutes for first-time model download)
 echo "   Waiting for server to start..."
-MAX_WAIT=120  # 120 iterations * 5 seconds = 10 minutes
+MAX_WAIT=240  # 240 iterations * 5 seconds = 20 minutes
 HEALTH_URL="http://127.0.0.1:$PORT/"
 
 for i in $(seq 1 $MAX_WAIT); do
@@ -54,14 +54,14 @@ for i in $(seq 1 $MAX_WAIT); do
     if [ $((i % 6)) -eq 0 ]; then
         elapsed=$((i * 5))
         echo "   Still waiting... (${elapsed}s elapsed)"
-        if [ $i -lt 24 ]; then
-            echo "   Model may be downloading (first run can take 5-10 minutes)"
+        if [ $i -lt 48 ]; then
+            echo "   Model may be downloading (first run can take 5-15 minutes)"
         fi
     fi
 done
 
-# Timeout after 10 minutes
-echo "❌ Server failed to start within 10 minutes"
+# Timeout after 20 minutes
+echo "❌ Server failed to start within 20 minutes"
 echo "   Check $LOG_FILE for details"
 if ps -p $SERVER_PID > /dev/null 2>&1; then
     echo "   Process is still running but not responding - killing it"
