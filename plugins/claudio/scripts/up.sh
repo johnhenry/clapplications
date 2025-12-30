@@ -115,6 +115,9 @@ fi
 # Configure voice-mode MCP server
 echo "🔧 Configuring voice-mode MCP..."
 
+# Track if MCP was just installed
+MCP_JUST_INSTALLED=false
+
 # Check if voice-mode is already configured
 if claude mcp get voice-mode &>/dev/null; then
     echo "✓ voice-mode MCP already configured"
@@ -135,6 +138,7 @@ EOF
 
     if claude mcp add-json voice-mode "$mcp_config" --scope user; then
         echo "✓ voice-mode MCP configured"
+        MCP_JUST_INSTALLED=true
     else
         echo "⚠️  Failed to configure voice-mode MCP (you may need to configure manually)"
     fi
@@ -166,4 +170,12 @@ fi
 
 echo "✅ Voice services ready!"
 echo ""
-echo "Just ask Claude: \"Let's have a voice conversation\""
+
+# If MCP was just installed, remind user to restart Claude Code
+if [ "$MCP_JUST_INSTALLED" = true ]; then
+    echo "⚠️  IMPORTANT: Restart Claude Code to activate the voice-mode MCP server"
+    echo ""
+    echo "   After restarting, just ask Claude: \"Let's have a voice conversation\""
+else
+    echo "Just ask Claude: \"Let's have a voice conversation\""
+fi

@@ -36,6 +36,8 @@ The Chatterbox Turbo TTS provider requires a HuggingFace account and authenticat
 
 1. Copy this plugin directory to your Claude Code plugins folder
 2. Start voice services with `/claudio:up` (installs automatically if needed)
+3. **If this is your first time**: Restart Claude Code to activate the MCP server
+4. Complete HuggingFace authentication (see Prerequisites above)
 
 ### Usage
 
