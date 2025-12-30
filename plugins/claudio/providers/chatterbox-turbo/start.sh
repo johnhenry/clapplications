@@ -25,23 +25,46 @@ cd "$PROVIDER_DIR/chatterbox-tts"
 nohup ./venv/bin/python server.py > "$LOG_FILE" 2>&1 &
 SERVER_PID=$!
 
-# Wait up to 60 seconds for server to start
+# Wait for server to start (up to 10 minutes for first-time model download)
 echo "   Waiting for server to start..."
-for i in {1..12}; do
+MAX_WAIT=120  # 120 iterations * 5 seconds = 10 minutes
+HEALTH_URL="http://127.0.0.1:$PORT/"
+
+for i in $(seq 1 $MAX_WAIT); do
     sleep 5
-    if lsof -Pi ":$PORT" -sTCP:LISTEN -t >/dev/null 2>&1; then
-        echo "✓ Chatterbox started (PID: $SERVER_PID)"
-        echo "$SERVER_PID"  # Output PID for state management
-        exit 0
-    fi
+
+    # Check if process is still alive
     if ! ps -p $SERVER_PID > /dev/null 2>&1; then
         echo "❌ Server process died. Check $LOG_FILE"
+        tail -20 "$LOG_FILE" | grep -i error || tail -5 "$LOG_FILE"
         exit 1
+    fi
+
+    # Check if port is listening
+    if lsof -Pi ":$PORT" -sTCP:LISTEN -t >/dev/null 2>&1; then
+        # Port is up, now check health endpoint
+        if curl -sf "$HEALTH_URL" > /dev/null 2>&1; then
+            echo "✓ Chatterbox started and ready (PID: $SERVER_PID)"
+            echo "$SERVER_PID"  # Output PID for state management
+            exit 0
+        fi
+    fi
+
+    # Show progress indication every 30 seconds
+    if [ $((i % 6)) -eq 0 ]; then
+        elapsed=$((i * 5))
+        echo "   Still waiting... (${elapsed}s elapsed)"
+        if [ $i -lt 24 ]; then
+            echo "   Model may be downloading (first run can take 5-10 minutes)"
+        fi
     fi
 done
 
-# Still not up after 60s
-echo "⏳ Server still starting (check $LOG_FILE)"
-echo "   This is normal on first run while model downloads"
-echo "$SERVER_PID"  # Output PID anyway
-exit 0
+# Timeout after 10 minutes
+echo "❌ Server failed to start within 10 minutes"
+echo "   Check $LOG_FILE for details"
+if ps -p $SERVER_PID > /dev/null 2>&1; then
+    echo "   Process is still running but not responding - killing it"
+    kill $SERVER_PID 2>/dev/null || true
+fi
+exit 1
