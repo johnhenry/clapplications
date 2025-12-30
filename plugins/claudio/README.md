@@ -14,6 +14,24 @@ Voice mode plugin that enables hands-free conversation with Claude using Whisper
 
 ## Quick Start
 
+### Prerequisites
+
+#### HuggingFace Authentication (Required for TTS)
+
+The Chatterbox Turbo TTS provider requires a HuggingFace account and authentication token to download the voice model.
+
+**Setup (required before first use):**
+1. Create a free account at https://huggingface.co/
+2. Generate an access token at https://huggingface.co/settings/tokens (read access is sufficient)
+3. After running `/claudio:up`, authenticate with:
+   ```bash
+   cd ~/.claude/plugins/cache/clapplications/claudio/1.0.0/providers/chatterbox-turbo/chatterbox-tts
+   source venv/bin/activate
+   huggingface-cli login --token YOUR_TOKEN_HERE
+   ```
+
+**Note:** You only need to do this once. The token will be saved for future use.
+
 ### Installation
 
 1. Copy this plugin directory to your Claude Code plugins folder
@@ -157,8 +175,9 @@ The plugin uses a provider-based architecture where each provider (whisper, chat
 1. Creates Python virtual environment
 2. Installs official `chatterbox-tts` package (GPU-specific)
 3. Creates FastAPI server
-4. Model downloads on first start (~2GB)
-5. Total: ~2.5GB
+4. **⚠️ Requires HuggingFace authentication** - See Prerequisites section
+5. Model downloads on first start (~2GB)
+6. Total: ~2.5GB
 
 ### Provider Architecture
 
@@ -173,7 +192,35 @@ This makes it easy to add new providers or switch between them!
 
 ## Troubleshooting
 
-### Services won't start
+### TTS Service Won't Start (HuggingFace Authentication)
+
+**Symptom:** `/claudio:status` shows chatterbox-turbo as "✗ Stopped"
+
+**Common Error in `/tmp/chatterbox.log`:**
+```
+huggingface_hub.errors.LocalTokenNotFoundError: Token is required (`token=True`),
+but no token found.
+```
+
+**Solution:** You need to authenticate with HuggingFace (see Prerequisites section above).
+
+**Quick Fix:**
+```bash
+cd ~/.claude/plugins/cache/clapplications/claudio/1.0.0/providers/chatterbox-turbo/chatterbox-tts
+source venv/bin/activate
+huggingface-cli login --token YOUR_HF_TOKEN
+```
+
+Get your token from: https://huggingface.co/settings/tokens
+
+**Verify Authentication:**
+```bash
+cd ~/.claude/plugins/cache/clapplications/claudio/1.0.0/providers/chatterbox-turbo/chatterbox-tts
+source venv/bin/activate
+python -c "from huggingface_hub import login; print('✓ Already logged in')" 2>/dev/null || echo "⚠️  Need to login"
+```
+
+### Services won't start (general)
 ```bash
 # Check status
 /claudio:status
