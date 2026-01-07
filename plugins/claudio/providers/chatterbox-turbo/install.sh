@@ -48,43 +48,53 @@ if [ ! -f "server.py" ]; then
 #!/usr/bin/env python3
 """Simple Chatterbox TTS server compatible with OpenAI API"""
 import os
+from contextlib import asynccontextmanager
 from pathlib import Path
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import Response
+from pydantic import BaseModel
 import uvicorn
 from chatterbox.tts_turbo import ChatterboxTurboTTS
 import io
 import soundfile as sf
 
-app = FastAPI(title="Chatterbox TTS Server")
+# Global model instance
 model = None
 
-@app.on_event("startup")
-async def load_model():
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Load model on startup, cleanup on shutdown"""
     global model
     print("Loading Chatterbox Turbo model...")
     model = ChatterboxTurboTTS.from_pretrained(device="cpu")
     print("Model loaded!")
+    yield
+    # Cleanup on shutdown (if needed)
+    model = None
+
+app = FastAPI(title="Chatterbox TTS Server", lifespan=lifespan)
+
+class TTSRequest(BaseModel):
+    """OpenAI-compatible TTS request"""
+    input: str
+    model: str = "tts-1"
+    voice: str = "default"
+    response_format: str = "mp3"
 
 @app.get("/")
 async def root():
     return {"status": "ok", "model": "chatterbox-turbo"}
 
 @app.post("/v1/audio/speech")
-async def generate_speech(
-    input: str,
-    model_name: str = "tts-1",
-    voice: str = "default",
-    response_format: str = "mp3"
-):
+async def generate_speech(request: TTSRequest):
     """OpenAI-compatible TTS endpoint"""
     global model
 
-    if not input:
+    if not request.input:
         raise HTTPException(status_code=400, detail="No input text provided")
 
     # Generate audio
-    wav = model.generate(input)
+    wav = model.generate(request.input)
 
     # Convert to bytes
     buffer = io.BytesIO()
@@ -94,14 +104,15 @@ async def generate_speech(
     return Response(content=buffer.read(), media_type="audio/wav")
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=8004)
+    port = int(os.environ.get("PORT", 8004))
+    uvicorn.run(app, host="127.0.0.1", port=port)
 PYSERVER
     chmod +x server.py
 fi
 
 # Install server dependencies
 echo "📥 Installing server dependencies..."
-./venv/bin/pip install fastapi uvicorn soundfile > /dev/null 2>&1
+./venv/bin/pip install fastapi uvicorn pydantic soundfile > /dev/null 2>&1
 
 echo "✅ Chatterbox provider installed"
 echo "   Model will download on first start (~2GB)"
