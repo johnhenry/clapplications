@@ -102,6 +102,7 @@ The voice-mode MCP handles all the complexity - you just have a natural conversa
 - Python 3.8+
 - `git` (for cloning repositories)
 - `make` (for building Whisper.cpp)
+- `lsof` (for process management)
 - 2GB+ free disk space
 
 ### Optional (for better performance)
