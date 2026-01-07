@@ -129,8 +129,8 @@ else
   "command": "uvx",
   "args": ["voice-mode"],
   "env": {
-    "VOICEMODE_STT_BASE_URL": "http://127.0.0.1:2022/v1",
-    "VOICEMODE_TTS_BASE_URL": "http://127.0.0.1:8004/v1"
+    "VOICEMODE_STT_BASE_URLS": "http://127.0.0.1:2022/v1",
+    "VOICEMODE_TTS_BASE_URLS": "http://127.0.0.1:8004/v1"
   }
 }
 EOF
