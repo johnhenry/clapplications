@@ -62,6 +62,8 @@ The Chatterbox Turbo TTS provider requires a HuggingFace account and authenticat
 
 **⚠️ First-time setup:** The first time you run `/claudio:up`, you must restart Claude Code to activate the voice-mode MCP server.
 
+> **📖 Having trouble with first-time setup?** See [FIRST_TIME_SETUP.md](./FIRST_TIME_SETUP.md) for a detailed explanation of why restart is required and troubleshooting steps.
+
 ## Available Commands
 
 | Command | Description |
@@ -69,6 +71,7 @@ The Chatterbox Turbo TTS provider requires a HuggingFace account and authenticat
 | `/claudio:up [stt=whisper] [tts=chatterbox-turbo]` | Start voice services (installs if needed) |
 | `/claudio:down` | Stop all voice services |
 | `/claudio:status` | Display comprehensive service status |
+| `/claudio:check` | Verify complete setup and troubleshoot issues |
 | `/claudio:clean servers` | Remove server installations, keep models |
 | `/claudio:clean models` | Remove all downloaded models |
 | `/claudio:clean all` | Remove everything (complete cleanup) |

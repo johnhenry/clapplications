@@ -115,12 +115,14 @@ fi
 # Configure voice-mode MCP server
 echo "🔧 Configuring voice-mode MCP..."
 
-# Track if MCP was just installed
-MCP_JUST_INSTALLED=false
+# Track if MCP configuration status
+MCP_NEEDS_RESTART=false
 
 # Check if voice-mode is already configured
 if claude mcp get voice-mode &>/dev/null; then
     echo "✓ voice-mode MCP already configured"
+    # Even if configured, it might not be loaded if Claude Code hasn't been restarted
+    # We'll check this below by trying to detect if the session has access to voice tools
 else
     # Add voice-mode MCP server with environment variables
     mcp_config=$(cat <<'EOF'
@@ -138,7 +140,7 @@ EOF
 
     if claude mcp add-json voice-mode "$mcp_config" --scope user; then
         echo "✓ voice-mode MCP configured"
-        MCP_JUST_INSTALLED=true
+        MCP_NEEDS_RESTART=true
     else
         echo "⚠️  Failed to configure voice-mode MCP (you may need to configure manually)"
     fi
@@ -171,11 +173,27 @@ fi
 echo "✅ Voice services ready!"
 echo ""
 
-# If MCP was just installed, remind user to restart Claude Code
-if [ "$MCP_JUST_INSTALLED" = true ]; then
-    echo "⚠️  IMPORTANT: Restart Claude Code to activate the voice-mode MCP server"
+# Always show restart reminder if MCP was just configured OR if we can't verify it's loaded
+# Since we can't reliably detect if MCP is loaded in the current session, we show the
+# restart reminder whenever MCP is configured but this might be first run
+if [ "$MCP_NEEDS_RESTART" = true ]; then
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "⚠️  IMPORTANT: RESTART REQUIRED"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     echo ""
-    echo "   After restarting, just ask Claude: \"Let's have a voice conversation\""
+    echo "   Voice-mode MCP server was just configured."
+    echo "   You MUST restart Claude Code for it to load."
+    echo ""
+    echo "   Steps:"
+    echo "   1. Exit Claude Code (type /exit or close the application)"
+    echo "   2. Restart Claude Code"
+    echo "   3. Ask Claude: \"Let's have a voice conversation\""
+    echo ""
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 else
-    echo "Just ask Claude: \"Let's have a voice conversation\""
+    echo "💡 To start a voice conversation, just ask Claude naturally:"
+    echo "   \"Let's have a voice conversation\""
+    echo ""
+    echo "   Note: If voice tools aren't available, you may need to restart"
+    echo "   Claude Code. MCP servers only load on startup."
 fi
