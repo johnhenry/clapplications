@@ -31,14 +31,19 @@ nohup ./build/bin/whisper-server \
     > "$LOG_FILE" 2>&1 &
 
 SERVER_PID=$!
-sleep 2
 
-# Verify it started
-if lsof -Pi ":$PORT" -sTCP:LISTEN -t >/dev/null 2>&1; then
-    echo "✓ Whisper started (PID: $SERVER_PID)"
-    echo "$SERVER_PID"  # Output PID for state management
-    exit 0
-else
-    echo "❌ Failed to start Whisper. Check $LOG_FILE"
-    exit 1
-fi
+# Wait for server to start (retry up to 10 seconds)
+MAX_WAIT=10
+ELAPSED=0
+while [ $ELAPSED -lt $MAX_WAIT ]; do
+    if lsof -Pi ":$PORT" -sTCP:LISTEN -t >/dev/null 2>&1; then
+        echo "✓ Whisper started (PID: $SERVER_PID)"
+        echo "$SERVER_PID"  # Output PID for state management
+        exit 0
+    fi
+    sleep 1
+    ELAPSED=$((ELAPSED + 1))
+done
+
+echo "❌ Failed to start Whisper after ${MAX_WAIT}s. Check $LOG_FILE"
+exit 1
