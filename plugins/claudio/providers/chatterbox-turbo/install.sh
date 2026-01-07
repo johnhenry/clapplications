@@ -5,6 +5,13 @@ PROVIDER_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 echo "📥 Installing Chatterbox TTS provider..."
 
+# Check for Python 3
+if ! command -v python3 >/dev/null 2>&1; then
+    echo "❌ Error: python3 is not installed"
+    echo "   Please install Python 3.8+ and try again"
+    exit 1
+fi
+
 # Create chatterbox-tts directory if not exists
 if [ ! -d "$PROVIDER_DIR/chatterbox-tts" ]; then
     mkdir -p "$PROVIDER_DIR/chatterbox-tts"
