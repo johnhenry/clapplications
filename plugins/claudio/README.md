@@ -45,6 +45,9 @@ The Chatterbox Turbo TTS provider requires a HuggingFace account and authenticat
 # Start voice services (installs if needed)
 /claudio:up
 
+# ⚠️ IMPORTANT: If this is your first time running /claudio:up:
+# You MUST restart Claude Code for the voice-mode MCP server to become available!
+
 # Then just talk naturally to Claude:
 "Let's have a voice conversation"
 "Can we talk using voice?"
@@ -56,6 +59,8 @@ The Chatterbox Turbo TTS provider requires a HuggingFace account and authenticat
 ```
 
 **That's it!** Once services are running, Claude automatically uses voice when you ask naturally. No special commands needed!
+
+**⚠️ First-time setup:** The first time you run `/claudio:up`, you must restart Claude Code to activate the voice-mode MCP server.
 
 ## Available Commands
 
