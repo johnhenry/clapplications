@@ -76,7 +76,16 @@ except Exception as e:
 get_server() {
     local provider="$1"
     init_state
-    python3 -c "import json; state=json.load(open('$STATE_FILE')); print(json.dumps(state['servers'].get('$provider', {})))"
+    python3 -c "
+import json, sys
+try:
+    with open('$STATE_FILE', 'r') as f:
+        state = json.load(f)
+    print(json.dumps(state.get('servers', {}).get('$provider', {})))
+except (json.JSONDecodeError, KeyError, FileNotFoundError):
+    print('{}')
+    sys.exit(0)
+" 2>/dev/null || echo "{}"
 }
 
 # Set server info (pid, port, status)
