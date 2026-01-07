@@ -26,7 +26,16 @@ EOF
 get_provider() {
     local type="$1"
     init_state
-    python3 -c "import json; state=json.load(open('$STATE_FILE')); print(state['providers'].get('$type', ''))"
+    python3 -c "
+import json, sys
+try:
+    with open('$STATE_FILE', 'r') as f:
+        state = json.load(f)
+    print(state.get('providers', {}).get('$type', ''))
+except (json.JSONDecodeError, KeyError, FileNotFoundError):
+    print('')
+    sys.exit(0)
+" 2>/dev/null || echo ""
 }
 
 # Set provider for a type
@@ -34,21 +43,49 @@ set_provider() {
     local type="$1"
     local provider="$2"
     init_state
+
+    # Use atomic write with temp file to avoid corruption
     python3 -c "
-import json
-with open('$STATE_FILE', 'r') as f:
-    state = json.load(f)
-state['providers']['$type'] = '$provider'
-with open('$STATE_FILE', 'w') as f:
-    json.dump(state, f, indent=2)
-"
+import json, sys, os, tempfile
+try:
+    # Read current state
+    with open('$STATE_FILE', 'r') as f:
+        state = json.load(f)
+
+    # Update state
+    if 'providers' not in state:
+        state['providers'] = {}
+    state['providers']['$type'] = '$provider'
+
+    # Atomic write using temp file + rename
+    fd, temp_path = tempfile.mkstemp(dir=os.path.dirname('$STATE_FILE'), prefix='.state-', suffix='.tmp')
+    try:
+        with os.fdopen(fd, 'w') as f:
+            json.dump(state, f, indent=2)
+        os.rename(temp_path, '$STATE_FILE')
+    except:
+        os.unlink(temp_path) if os.path.exists(temp_path) else None
+        raise
+except Exception as e:
+    print(f'Error updating state: {e}', file=sys.stderr)
+    sys.exit(1)
+" || { echo "Failed to update state"; return 1; }
 }
 
 # Get server info
 get_server() {
     local provider="$1"
     init_state
-    python3 -c "import json; state=json.load(open('$STATE_FILE')); print(json.dumps(state['servers'].get('$provider', {})))"
+    python3 -c "
+import json, sys
+try:
+    with open('$STATE_FILE', 'r') as f:
+        state = json.load(f)
+    print(json.dumps(state.get('servers', {}).get('$provider', {})))
+except (json.JSONDecodeError, KeyError, FileNotFoundError):
+    print('{}')
+    sys.exit(0)
+" 2>/dev/null || echo "{}"
 }
 
 # Set server info (pid, port, status)

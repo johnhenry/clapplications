@@ -6,6 +6,15 @@ MODEL="${MODEL:-base.en}"
 
 echo "📥 Installing Whisper STT provider..."
 
+# Check required dependencies
+for cmd in git make cmake; do
+    if ! command -v "$cmd" >/dev/null 2>&1; then
+        echo "❌ Error: $cmd is not installed"
+        echo "   Please install $cmd and try again"
+        exit 1
+    fi
+done
+
 # Clone whisper.cpp if not exists
 if [ ! -d "$PROVIDER_DIR/whisper.cpp" ]; then
     echo "📥 Cloning whisper.cpp..."

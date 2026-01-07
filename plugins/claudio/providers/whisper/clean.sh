@@ -22,7 +22,7 @@ case "$TARGET" in
     models)
         echo "🧹 Cleaning Whisper models..."
         if [ -d "$PROVIDER_DIR/whisper.cpp/models" ]; then
-            rm -rf "$PROVIDER_DIR/whisper.cpp/models"/*.bin
+            find "$PROVIDER_DIR/whisper.cpp/models" -name "*.bin" -type f -delete 2>/dev/null || true
             echo "✓ Removed Whisper models"
         fi
         ;;

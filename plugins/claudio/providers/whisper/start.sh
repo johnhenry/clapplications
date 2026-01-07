@@ -26,6 +26,8 @@ nohup ./build/bin/whisper-server \
     -m "./models/ggml-$MODEL.bin" \
     --host 127.0.0.1 \
     --port "$PORT" \
+    --request-path /v1/audio \
+    --inference-path /transcriptions \
     > "$LOG_FILE" 2>&1 &
 
 SERVER_PID=$!
