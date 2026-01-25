@@ -1,6 +1,6 @@
 # Provider installations
-providers/*/whisper.cpp/
-providers/*/chatterbox-tts/
+providers/*/sensevoice/
+providers/*/qwen3-tts/
 providers/*/venv/
 providers/*/build/
 

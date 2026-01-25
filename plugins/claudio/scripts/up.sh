@@ -7,7 +7,7 @@ shift  # Remove plugin dir from args
 # Source state management
 source "$SCRIPT_DIR/state.sh"
 
-# Parse arguments (stt=whisper tts=chatterbox-turbo)
+# Parse arguments (stt=sensevoice tts=qwen3-tts)
 STT_PROVIDER=$(get_provider "stt")
 TTS_PROVIDER=$(get_provider "tts")
 
@@ -92,23 +92,8 @@ echo ""
 if ! start_provider "$TTS_PROVIDER" "tts" 8004; then
     echo ""
     echo "❌ Failed to start TTS provider"
-
-    # Check if it's chatterbox-turbo and provide HuggingFace auth help
-    if [ "$TTS_PROVIDER" = "chatterbox-turbo" ]; then
-        echo ""
-        echo "⚠️  TTS service failed. This is likely due to missing HuggingFace authentication."
-        echo ""
-        echo "📝 To fix this:"
-        echo "   1. Get a token from: https://huggingface.co/settings/tokens"
-        echo "   2. Run:"
-        echo "      cd $PLUGIN_DIR/providers/chatterbox-turbo/chatterbox-tts"
-        echo "      source venv/bin/activate"
-        echo "      huggingface-cli login --token YOUR_TOKEN"
-        echo ""
-        echo "💡 See the README for more details: $PLUGIN_DIR/README.md"
-        echo "📋 Check logs: /tmp/chatterbox.log"
-    fi
-
+    echo ""
+    echo "📋 Check logs: /tmp/qwen3-tts.log"
     exit 1
 fi
 
@@ -147,29 +132,6 @@ EOF
 fi
 
 echo ""
-
-# Check if chatterbox-turbo was just installed and warn about HuggingFace auth
-if [ "$TTS_PROVIDER" = "chatterbox-turbo" ]; then
-    provider_dir="$PLUGIN_DIR/providers/chatterbox-turbo/chatterbox-tts"
-    if [ -d "$provider_dir/venv" ]; then
-        # Check if HuggingFace token exists
-        if ! "$provider_dir/venv/bin/python" -c "from huggingface_hub import get_token; token = get_token(); exit(0 if token else 1)" 2>/dev/null; then
-            echo "⚠️  IMPORTANT: HuggingFace authentication required!"
-            echo ""
-            echo "   Before using voice features, you must authenticate:"
-            echo ""
-            echo "   1. Get a token from: https://huggingface.co/settings/tokens"
-            echo "   2. Run:"
-            echo "      cd $provider_dir"
-            echo "      source venv/bin/activate"
-            echo "      huggingface-cli login --token YOUR_TOKEN"
-            echo ""
-            echo "   See README for details: $PLUGIN_DIR/README.md"
-            echo ""
-        fi
-    fi
-fi
-
 echo "✅ Voice services ready!"
 echo ""
 

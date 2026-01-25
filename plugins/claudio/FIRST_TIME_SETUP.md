@@ -16,7 +16,7 @@ The issue stems from how Claude Code loads MCP servers:
 
 ### What happened:
 1. User runs `/claudio:up` (first time)
-2. Script installs Whisper and Chatterbox
+2. Script installs SenseVoice and Qwen3-TTS
 3. Script configures voice-mode MCP server
 4. Script says "Voice services ready!"
 5. User asks: "let's have a voice conversation"
@@ -24,7 +24,7 @@ The issue stems from how Claude Code loads MCP servers:
 7. User is confused - services are running but voice doesn't work
 
 ### Why it happened:
-- The voice services (Whisper/Chatterbox) ARE running ✅
+- The voice services (SenseVoice/Qwen3-TTS) ARE running ✅
 - The voice-mode MCP server IS configured ✅
 - But the MCP server IS NOT loaded in the current session ❌
 - MCP servers only load when Claude Code starts

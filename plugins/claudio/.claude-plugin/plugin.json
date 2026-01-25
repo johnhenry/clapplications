@@ -1,7 +1,7 @@
 {
   "name": "claudio",
-  "description": "Voice mode for Claude Code with Whisper STT and Chatterbox TTS",
-  "version": "1.0.0",
+  "description": "Voice mode for Claude Code with SenseVoice STT and Qwen3-TTS",
+  "version": "2.0.0",
   "author": {
     "name": "John Henry"
   }

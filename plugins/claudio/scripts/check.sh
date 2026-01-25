@@ -11,10 +11,10 @@ echo "🔍 Checking voice conversation setup..."
 echo ""
 
 # Check 1: STT Service
-echo "1️⃣  Checking STT service (Whisper)..."
+echo "1️⃣  Checking STT service (SenseVoice)..."
 STT_PROVIDER=$(get_provider "stt")
 if [ -z "$STT_PROVIDER" ]; then
-    STT_PROVIDER="whisper"
+    STT_PROVIDER="sensevoice"
 fi
 
 STT_HEALTH=$("$PLUGIN_DIR/providers/$STT_PROVIDER/health.sh" 2>/dev/null || echo "stopped")
@@ -30,10 +30,10 @@ fi
 echo ""
 
 # Check 2: TTS Service
-echo "2️⃣  Checking TTS service (Chatterbox)..."
+echo "2️⃣  Checking TTS service (Qwen3-TTS)..."
 TTS_PROVIDER=$(get_provider "tts")
 if [ -z "$TTS_PROVIDER" ]; then
-    TTS_PROVIDER="chatterbox-turbo"
+    TTS_PROVIDER="qwen3-tts"
 fi
 
 TTS_HEALTH=$("$PLUGIN_DIR/providers/$TTS_PROVIDER/health.sh" 2>/dev/null || echo "stopped")
@@ -85,5 +85,5 @@ echo ""
 echo "If voice doesn't work, try:"
 echo "  • Restart Claude Code (MCP servers load on startup)"
 echo "  • Run /claudio:status to check service status"
-echo "  • Check logs: /tmp/whisper.log and /tmp/chatterbox.log"
+echo "  • Check logs: /tmp/sensevoice.log and /tmp/qwen3-tts.log"
 echo ""
