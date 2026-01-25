@@ -12,8 +12,8 @@ init_state() {
 {
   "version": "2.0.0",
   "providers": {
-    "stt": "whisper",
-    "tts": "chatterbox-turbo"
+    "stt": "sensevoice",
+    "tts": "qwen3-tts"
   },
   "servers": {},
   "models": {}

@@ -1,43 +1,31 @@
 # Claudio Voice Plugin for Claude Code
 
-Voice mode plugin that enables hands-free conversation with Claude using Whisper (speech-to-text) and Chatterbox Turbo (text-to-speech).
+Voice mode plugin that enables hands-free conversation with Claude using SenseVoice (speech-to-text) and Qwen3-TTS (text-to-speech) - both from the Alibaba ecosystem.
 
 ## Features
 
-- 🎤 **Local Speech Recognition** - Whisper.cpp for fast, private STT
-- 🔊 **High-Quality TTS** - Chatterbox Turbo with 75ms latency
-- 💬 **Natural Language Control** - Just ask Claude to use voice, no special commands
-- 🚀 **Self-Contained** - Everything bundled, no separate installations
-- 🔒 **Privacy-First** - All processing happens locally
-- ⚡ **GPU Accelerated** - Automatic CUDA/ROCm/MPS detection
-- 🔌 **Provider Architecture** - Easy to add new STT/TTS providers
+- **Local Speech Recognition** - SenseVoice for fast, accurate STT (15x faster than Whisper-Large)
+- **High-Quality TTS** - Qwen3-TTS with natural voice synthesis
+- **No Authentication Required** - Both models are fully open, no HuggingFace tokens needed
+- **Natural Language Control** - Just ask Claude to use voice, no special commands
+- **Self-Contained** - Everything bundled, no separate installations
+- **Privacy-First** - All processing happens locally
+- **GPU Accelerated** - Automatic CUDA/MPS detection
+- **Provider Architecture** - Easy to add new STT/TTS providers
 
 ## Quick Start
 
 ### Prerequisites
 
-#### HuggingFace Authentication (Required for TTS)
-
-The Chatterbox Turbo TTS provider requires a HuggingFace account and authentication token to download the voice model.
-
-**Setup (required before first use):**
-1. Create a free account at https://huggingface.co/
-2. Generate an access token at https://huggingface.co/settings/tokens (read access is sufficient)
-3. After running `/claudio:up`, authenticate with:
-   ```bash
-   cd ~/.claude/plugins/cache/clapplications/claudio/1.0.0/providers/chatterbox-turbo/chatterbox-tts
-   source venv/bin/activate
-   huggingface-cli login --token YOUR_TOKEN_HERE
-   ```
-
-**Note:** You only need to do this once. The token will be saved for future use.
+- Python 3.10+ (3.11 recommended)
+- 8GB+ RAM (16GB recommended)
+- Optional: NVIDIA GPU with 8GB+ VRAM for best performance
 
 ### Installation
 
 1. Copy this plugin directory to your Claude Code plugins folder
 2. Start voice services with `/claudio:up` (installs automatically if needed)
 3. **If this is your first time**: Restart Claude Code to activate the MCP server
-4. Complete HuggingFace authentication (see Prerequisites above)
 
 ### Usage
 
@@ -45,7 +33,7 @@ The Chatterbox Turbo TTS provider requires a HuggingFace account and authenticat
 # Start voice services (installs if needed)
 /claudio:up
 
-# ⚠️ IMPORTANT: If this is your first time running /claudio:up:
+# IMPORTANT: If this is your first time running /claudio:up:
 # You MUST restart Claude Code for the voice-mode MCP server to become available!
 
 # Then just talk naturally to Claude:
@@ -60,15 +48,15 @@ The Chatterbox Turbo TTS provider requires a HuggingFace account and authenticat
 
 **That's it!** Once services are running, Claude automatically uses voice when you ask naturally. No special commands needed!
 
-**⚠️ First-time setup:** The first time you run `/claudio:up`, you must restart Claude Code to activate the voice-mode MCP server.
+**First-time setup:** The first time you run `/claudio:up`, you must restart Claude Code to activate the voice-mode MCP server.
 
-> **📖 Having trouble with first-time setup?** See [FIRST_TIME_SETUP.md](./FIRST_TIME_SETUP.md) for a detailed explanation of why restart is required and troubleshooting steps.
+> **Having trouble with first-time setup?** See [FIRST_TIME_SETUP.md](./FIRST_TIME_SETUP.md) for a detailed explanation of why restart is required and troubleshooting steps.
 
 ## Available Commands
 
 | Command | Description |
 |---------|-------------|
-| `/claudio:up [stt=whisper] [tts=chatterbox-turbo]` | Start voice services (installs if needed) |
+| `/claudio:up [stt=sensevoice] [tts=qwen3-tts]` | Start voice services (installs if needed) |
 | `/claudio:down` | Stop all voice services |
 | `/claudio:status` | Display comprehensive service status |
 | `/claudio:check` | Verify complete setup and troubleshoot issues |
@@ -82,12 +70,12 @@ The Chatterbox Turbo TTS provider requires a HuggingFace account and authenticat
 
 The plugin integrates with Claude Code's voice-mode MCP server. Once you run `/claudio:up`:
 
-1. **Whisper** and **Chatterbox** servers start in the background
+1. **SenseVoice** and **Qwen3-TTS** servers start in the background
 2. The **voice-mode MCP** is automatically configured in Claude Code
 3. Claude automatically has access to voice capabilities
 
 **Everything is configured for you!** The plugin:
-- Installs voice providers (Whisper, Chatterbox)
+- Installs voice providers (SenseVoice, Qwen3-TTS)
 - Configures the voice-mode MCP server
 - Sets up environment variables
 - Starts all services
@@ -107,16 +95,23 @@ The voice-mode MCP handles all the complexity - you just have a natural conversa
 ## System Requirements
 
 ### Required
-- Python 3.8+
-- `git` (for cloning repositories)
-- `make` (for building Whisper.cpp)
+- Python 3.10+ (3.11 recommended)
 - `lsof` (for process management)
-- 2GB+ free disk space
+- 4GB+ free disk space
 
-### Optional (for better performance)
-- NVIDIA GPU with CUDA 12.1+ (Chatterbox Turbo)
-- AMD GPU with ROCm (Chatterbox Turbo)
-- Apple Silicon with Metal (Chatterbox Turbo via MPS)
+### Recommended (for better performance)
+- NVIDIA GPU with 8GB+ VRAM (CUDA 12.1+)
+- OR Apple Silicon with Metal (MPS)
+- 16GB RAM
+
+### Hardware Requirements by Provider
+
+| Provider | VRAM (GPU) | RAM (CPU) | Notes |
+|----------|------------|-----------|-------|
+| SenseVoice | ~2GB | ~4GB | 15x faster than Whisper-Large |
+| Qwen3-TTS (0.6B) | ~4GB | ~8GB | Default model, good quality |
+| Qwen3-TTS (1.7B) | ~8GB | ~16GB | Higher quality (set QWEN_TTS_MODEL) |
+| **Combined** | ~6-10GB | ~12GB | Both providers running |
 
 ## Architecture
 
@@ -135,15 +130,15 @@ Voice Services Stack:
                │
     ┌──────────▼──────────────┐
     │   Local Voice Services  │
-    │   (claudio/servers/)    │
+    │   (claudio/providers/)  │
     │                         │
     │ ┌─────────────────────┐ │
-    │ │ Whisper.cpp         │ │  Port 2022
-    │ │ (STT - base.en)     │ │
+    │ │ SenseVoice          │ │  Port 2022
+    │ │ (STT - FunASR)      │ │
     │ └─────────────────────┘ │
     │                         │
     │ ┌─────────────────────┐ │
-    │ │ Chatterbox Turbo    │ │  Port 8004
+    │ │ Qwen3-TTS           │ │  Port 8004
     │ │ (TTS - FastAPI)     │ │
     │ └─────────────────────┘ │
     └─────────────────────────┘
@@ -152,8 +147,8 @@ Voice Services Stack:
 ## Configuration
 
 ### Default Ports
-- **Whisper STT**: `http://127.0.0.1:2022/v1`
-- **Chatterbox TTS**: `http://127.0.0.1:8004/v1`
+- **SenseVoice STT**: `http://127.0.0.1:2022/v1`
+- **Qwen3-TTS**: `http://127.0.0.1:8004/v1`
 
 ### Environment Variables
 The plugin automatically configures these for you:
@@ -162,13 +157,20 @@ VOICEMODE_STT_BASE_URLS="http://127.0.0.1:2022/v1"
 VOICEMODE_TTS_BASE_URLS="http://127.0.0.1:8004/v1"
 ```
 
+### Using the Larger TTS Model
+For higher quality TTS (requires 8GB+ VRAM):
+```bash
+export QWEN_TTS_MODEL="Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice"
+/claudio:up
+```
+
 ## Installation Details
 
 ### What happens during `/claudio:up`:
 
 **Everything is installed and configured automatically!**
 
-The plugin uses a provider-based architecture where each provider (whisper, chatterbox-turbo) is self-contained.
+The plugin uses a provider-based architecture where each provider (sensevoice, qwen3-tts) is self-contained.
 
 **Automatic MCP Configuration:**
 1. Checks if voice-mode MCP is already configured
@@ -176,19 +178,19 @@ The plugin uses a provider-based architecture where each provider (whisper, chat
 3. Adds it to your Claude Code MCP servers (user scope)
 4. Configures environment variables for STT/TTS endpoints
 
-**Whisper Provider (`providers/whisper/`):**
-1. Clones `whisper.cpp` repository
-2. Builds with `make`
-3. Downloads `base.en` model (~150MB)
-4. Total: ~500MB
-
-**Chatterbox Turbo Provider (`providers/chatterbox-turbo/`):**
+**SenseVoice Provider (`providers/sensevoice/`):**
 1. Creates Python virtual environment
-2. Installs official `chatterbox-tts` package (GPU-specific)
+2. Installs FunASR package with PyTorch
 3. Creates FastAPI server
-4. **⚠️ Requires HuggingFace authentication** - See Prerequisites section
-5. Model downloads on first start (~2GB)
-6. Total: ~2.5GB
+4. Model downloads on first start (~500MB)
+5. Total: ~2GB
+
+**Qwen3-TTS Provider (`providers/qwen3-tts/`):**
+1. Creates Python virtual environment
+2. Installs official `qwen-tts` package
+3. Creates FastAPI server
+4. Model downloads on first start (~3GB for 0.6B model)
+5. Total: ~4GB
 
 ### Provider Architecture
 
@@ -203,35 +205,7 @@ This makes it easy to add new providers or switch between them!
 
 ## Troubleshooting
 
-### TTS Service Won't Start (HuggingFace Authentication)
-
-**Symptom:** `/claudio:status` shows chatterbox-turbo as "✗ Stopped"
-
-**Common Error in `/tmp/chatterbox.log`:**
-```
-huggingface_hub.errors.LocalTokenNotFoundError: Token is required (`token=True`),
-but no token found.
-```
-
-**Solution:** You need to authenticate with HuggingFace (see Prerequisites section above).
-
-**Quick Fix:**
-```bash
-cd ~/.claude/plugins/cache/clapplications/claudio/1.0.0/providers/chatterbox-turbo/chatterbox-tts
-source venv/bin/activate
-huggingface-cli login --token YOUR_HF_TOKEN
-```
-
-Get your token from: https://huggingface.co/settings/tokens
-
-**Verify Authentication:**
-```bash
-cd ~/.claude/plugins/cache/clapplications/claudio/1.0.0/providers/chatterbox-turbo/chatterbox-tts
-source venv/bin/activate
-python -c "from huggingface_hub import login; print('✓ Already logged in')" 2>/dev/null || echo "⚠️  Need to login"
-```
-
-### Services won't start (general)
+### Services won't start
 ```bash
 # Check status
 /claudio:status
@@ -241,31 +215,37 @@ python -c "from huggingface_hub import login; print('✓ Already logged in')" 2>
 /claudio:up
 
 # Check logs
-tail -f /tmp/whisper.log
-tail -f /tmp/chatterbox.log
+tail -f /tmp/sensevoice.log
+tail -f /tmp/qwen3-tts.log
 ```
 
+### Model download issues
+Both models download from public repositories without authentication:
+- SenseVoice: Downloads from ModelScope
+- Qwen3-TTS: Downloads from HuggingFace (public, no token needed)
+
+If downloads fail, check your internet connection and try again.
+
 ### GPU not detected
-Chatterbox will automatically fall back to CPU. For GPU support:
+Services will automatically fall back to CPU. For GPU support:
 - **NVIDIA**: Install CUDA 12.1+
-- **AMD**: Install ROCm
 - **Apple**: macOS 12+ with Metal support
 
 ### Port conflicts
 Edit port in provider start scripts:
 ```bash
-# providers/whisper/start.sh
+# providers/sensevoice/start.sh
 PORT="${PORT:-2022}"
 
-# providers/chatterbox-turbo/start.sh
+# providers/qwen3-tts/start.sh
 PORT="${PORT:-8004}"
 ```
 
-### Voice quality issues
-For better quality, use a different Whisper model:
+### Out of memory
+Try using CPU mode or the smaller TTS model:
 ```bash
-# Set environment variable before /claudio:up
-export MODEL="small.en"  # Options: tiny.en, base.en, small.en, medium.en
+# Force CPU for lower memory usage
+export CUDA_VISIBLE_DEVICES=""
 /claudio:up
 ```
 
@@ -273,8 +253,8 @@ export MODEL="small.en"  # Options: tiny.en, base.en, small.en, medium.en
 
 ### Switching Providers
 ```bash
-# Use different providers (future: openai, elevenlabs, etc.)
-/claudio:up stt=whisper tts=chatterbox-turbo
+# Use specific providers
+/claudio:up stt=sensevoice tts=qwen3-tts
 
 # Then ask Claude to use voice naturally
 # Claude will use whatever providers are currently running
@@ -283,7 +263,7 @@ export MODEL="small.en"  # Options: tiny.en, base.en, small.en, medium.en
 ### Manual Provider Control
 ```bash
 # Start a specific provider manually
-cd claudio/providers/whisper
+cd claudio/providers/sensevoice
 ./start.sh
 
 # Stop a specific provider
@@ -309,18 +289,19 @@ cd claudio/providers/whisper
 
 ### Voice Stack Components
 
-**Whisper.cpp**
-- Implementation: C++ with GGML
-- Model: base.en (74M parameters)
-- Performance: ~50x real-time on Apple M2
+**SenseVoice (via FunASR)**
+- Implementation: Python + PyTorch
+- Model: iic/SenseVoiceSmall
+- Performance: 15x faster than Whisper-Large
+- Languages: Chinese, English, Japanese, Korean, Cantonese
 - License: MIT
 
-**Chatterbox Turbo**
+**Qwen3-TTS**
 - Implementation: Python + PyTorch
-- Model: 350M parameters
-- Performance: 75ms latency, 6x real-time
-- Features: Paralinguistic tags, voice cloning, watermarking
-- License: MIT
+- Model: Qwen/Qwen3-TTS-12Hz-0.6B (default) or 1.7B
+- Sample Rate: 24kHz
+- Features: Multiple voices, natural prosody
+- License: Apache 2.0
 
 ### MCP Servers
 
@@ -346,9 +327,7 @@ MIT License - See main repository for details.
 
 ## Credits
 
-- **Whisper**: OpenAI (via ggerganov/whisper.cpp)
-- **Chatterbox Turbo**: Resemble AI
-- **Chatterbox TTS Server**: devnen
+- **SenseVoice**: Alibaba FunAudioLLM
+- **Qwen3-TTS**: Alibaba Qwen Team
+- **FunASR**: ModelScope
 - **Voice Mode MCP**: Anthropic
-
-claude --dangerously-skip-permissions -c --plugin-dir claudioclaude --dangerously-skip-permissions -c --plugin-dir claudio
