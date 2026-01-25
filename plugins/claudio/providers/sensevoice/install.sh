@@ -92,18 +92,21 @@ async def lifespan(app: FastAPI):
         import torch
         if torch.cuda.is_available():
             device = "cuda:0"
-            print(f"Using CUDA GPU")
+            print("Using CUDA GPU")
         elif hasattr(torch.backends, 'mps') and torch.backends.mps.is_available():
-            device = "mps"
-            print(f"Using Apple Metal GPU")
+            # Note: FunASR may have limited MPS support
+            device = "cpu"
+            print("Apple Silicon detected, using CPU (MPS has limited FunASR support)")
         else:
-            print(f"Using CPU (no GPU detected)")
+            print("Using CPU (no GPU detected)")
     except Exception as e:
         print(f"GPU detection failed, using CPU: {e}")
 
-    # Load SenseVoice model
+    # Load SenseVoice model with VAD for better segmentation
     stt_model = AutoModel(
         model="iic/SenseVoiceSmall",
+        vad_model="fsmn-vad",
+        vad_kwargs={"max_single_segment_time": 30000},
         device=device,
         disable_update=True
     )
@@ -143,20 +146,25 @@ async def transcribe(
         tmp_path = tmp.name
 
     try:
+        # Import postprocessing utility
+        from funasr.utils.postprocess_utils import rich_transcription_postprocess
+
         # Run transcription
         result = stt_model.generate(
             input=tmp_path,
-            batch_size_s=300,
+            cache={},
+            language=language if language != "auto" else "auto",
+            use_itn=True,
+            batch_size_s=60,
             merge_vad=True,
             merge_length_s=15
         )
 
-        # Extract text from result
+        # Extract and clean text from result
         if result and len(result) > 0:
-            # FunASR returns list of results, get text from first
-            text = result[0].get("text", "")
-            # Clean up any special tokens
-            text = text.replace("<|nospeech|>", "").strip()
+            raw_text = result[0].get("text", "")
+            # Use rich_transcription_postprocess to clean up output
+            text = rich_transcription_postprocess(raw_text)
         else:
             text = ""
 
@@ -171,6 +179,9 @@ async def transcribe(
             })
         else:
             return JSONResponse({"text": text})
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Transcription failed: {str(e)}")
 
     finally:
         # Clean up temp file

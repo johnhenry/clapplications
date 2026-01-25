@@ -158,11 +158,17 @@ VOICEMODE_TTS_BASE_URLS="http://127.0.0.1:8004/v1"
 ```
 
 ### Using the Larger TTS Model
-For higher quality TTS (requires 8GB+ VRAM):
+For higher quality TTS with custom voices (requires 8GB+ VRAM):
 ```bash
 export QWEN_TTS_MODEL="Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice"
 /claudio:up
 ```
+
+Available model variants:
+- `Qwen/Qwen3-TTS-12Hz-0.6B-Base` - Default, lower VRAM
+- `Qwen/Qwen3-TTS-12Hz-1.7B-Base` - Higher quality base
+- `Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice` - Named speaker voices
+- `Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign` - Custom voice descriptions
 
 ## Installation Details
 
@@ -298,9 +304,10 @@ cd claudio/providers/sensevoice
 
 **Qwen3-TTS**
 - Implementation: Python + PyTorch
-- Model: Qwen/Qwen3-TTS-12Hz-0.6B (default) or 1.7B
+- Model: Qwen/Qwen3-TTS-12Hz-0.6B-Base (default)
+- Alternative: Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice (higher quality, more VRAM)
 - Sample Rate: 24kHz
-- Features: Multiple voices, natural prosody
+- Features: Multiple voices, natural prosody, voice design
 - License: Apache 2.0
 
 ### MCP Servers

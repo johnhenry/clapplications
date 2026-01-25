@@ -88,6 +88,7 @@ tts_model = None
 SAMPLE_RATE = 24000  # Qwen3-TTS outputs 24kHz audio
 
 # Voice mapping: OpenAI voice names to Qwen3-TTS speakers
+# These are the default speakers available in Qwen3-TTS CustomVoice model
 VOICE_MAP = {
     "alloy": "Chelsie",
     "echo": "Ethan",
@@ -96,6 +97,14 @@ VOICE_MAP = {
     "nova": "Isabella",
     "shimmer": "Sophia",
     "default": "Chelsie",
+    # Also allow direct speaker names
+    "chelsie": "Chelsie",
+    "ethan": "Ethan",
+    "aria": "Aria",
+    "leo": "Leo",
+    "isabella": "Isabella",
+    "sophia": "Sophia",
+    "vivian": "Vivian",
 }
 
 @asynccontextmanager
@@ -105,32 +114,51 @@ async def lifespan(app: FastAPI):
     print("Loading Qwen3-TTS model...")
     print("This may take 5-10 minutes on first run as the model downloads (~3GB)...")
 
+    import torch
     from qwen_tts import Qwen3TTSModel
 
-    # Detect device
-    device = "cpu"
+    # Detect device and dtype
+    device_map = "cpu"
+    dtype = torch.float32
+    attn_impl = "eager"
+
     try:
-        import torch
         if torch.cuda.is_available():
-            device = "cuda:0"
-            print(f"Using CUDA GPU")
+            device_map = "cuda:0"
+            dtype = torch.bfloat16
+            # Try to use flash attention if available
+            try:
+                import flash_attn
+                attn_impl = "flash_attention_2"
+                print("Using CUDA GPU with Flash Attention 2")
+            except ImportError:
+                print("Using CUDA GPU (flash-attn not available)")
         elif hasattr(torch.backends, 'mps') and torch.backends.mps.is_available():
-            device = "mps"
-            print(f"Using Apple Metal GPU")
+            device_map = "mps"
+            dtype = torch.float16
+            print("Using Apple Metal GPU")
         else:
-            print(f"Using CPU (no GPU detected)")
+            print("Using CPU (no GPU detected)")
     except Exception as e:
         print(f"GPU detection failed, using CPU: {e}")
 
     # Load model - use smaller 0.6B variant for lower VRAM, or 1.7B for quality
-    model_name = os.environ.get("QWEN_TTS_MODEL", "Qwen/Qwen3-TTS-12Hz-0.6B")
+    model_name = os.environ.get("QWEN_TTS_MODEL", "Qwen/Qwen3-TTS-12Hz-0.6B-Base")
     print(f"Loading model: {model_name}")
 
-    tts_model = Qwen3TTSModel.from_pretrained(
-        model_name,
-        device=device
-    )
-    SAMPLE_RATE = tts_model.sample_rate if hasattr(tts_model, 'sample_rate') else 24000
+    # Build kwargs for model loading
+    model_kwargs = {
+        "device_map": device_map,
+        "torch_dtype": dtype,
+    }
+    if attn_impl == "flash_attention_2":
+        model_kwargs["attn_implementation"] = attn_impl
+
+    tts_model = Qwen3TTSModel.from_pretrained(model_name, **model_kwargs)
+
+    # Get sample rate from model if available
+    if hasattr(tts_model, 'sample_rate'):
+        SAMPLE_RATE = tts_model.sample_rate
     print(f"Model loaded! Sample rate: {SAMPLE_RATE}")
     yield
     # Cleanup on shutdown
@@ -157,7 +185,7 @@ async def health():
 @app.post("/v1/audio/speech")
 async def generate_speech(request: TTSRequest):
     """OpenAI-compatible TTS endpoint"""
-    global tts_model
+    global tts_model, SAMPLE_RATE
 
     if tts_model is None:
         raise HTTPException(status_code=503, detail="Model not loaded")
@@ -166,21 +194,54 @@ async def generate_speech(request: TTSRequest):
         raise HTTPException(status_code=400, detail="No input text provided")
 
     # Map voice name to Qwen3-TTS speaker
-    speaker = VOICE_MAP.get(request.voice.lower(), VOICE_MAP["default"])
+    voice_lower = request.voice.lower()
+    speaker = VOICE_MAP.get(voice_lower, VOICE_MAP["default"])
 
     try:
         # Generate audio with Qwen3-TTS
-        # The API expects text and speaker name
-        audio = tts_model.generate(
-            text=request.input,
-            speaker=speaker
-        )
+        # Use generate_custom_voice for CustomVoice models
+        # For Base models, we may need to use a different method
+        model_name = os.environ.get("QWEN_TTS_MODEL", "Qwen/Qwen3-TTS-12Hz-0.6B-Base")
+
+        if "CustomVoice" in model_name:
+            # CustomVoice model - use speaker name
+            wavs, sr = tts_model.generate_custom_voice(
+                text=request.input,
+                language="English",  # Auto-detect would be better but not always available
+                speaker=speaker,
+            )
+        elif "VoiceDesign" in model_name:
+            # VoiceDesign model - use voice description
+            wavs, sr = tts_model.generate_voice_design(
+                text=request.input,
+                language="English",
+                instruct="A clear, natural speaking voice",
+            )
+        else:
+            # Base model - try generate_custom_voice first, fall back to direct generate
+            try:
+                wavs, sr = tts_model.generate_custom_voice(
+                    text=request.input,
+                    language="English",
+                    speaker=speaker,
+                )
+            except (AttributeError, TypeError):
+                # Fall back to basic generate if available
+                wavs, sr = tts_model.generate(text=request.input)
+
+        SAMPLE_RATE = sr
 
         # Convert to numpy array if needed
-        if hasattr(audio, 'cpu'):
-            audio_np = audio.squeeze().cpu().numpy()
+        if hasattr(wavs, 'cpu'):
+            audio_np = wavs.squeeze().cpu().numpy()
+        elif hasattr(wavs, 'numpy'):
+            audio_np = wavs.squeeze().numpy()
         else:
-            audio_np = audio
+            audio_np = wavs
+
+        # Ensure 1D array
+        if len(audio_np.shape) > 1:
+            audio_np = audio_np.squeeze()
 
         # Convert to bytes
         buffer = io.BytesIO()
@@ -190,6 +251,8 @@ async def generate_speech(request: TTSRequest):
         return Response(content=buffer.read(), media_type="audio/wav")
 
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"TTS generation failed: {str(e)}")
 
 if __name__ == "__main__":
