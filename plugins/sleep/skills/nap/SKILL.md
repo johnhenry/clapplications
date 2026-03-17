@@ -1,7 +1,6 @@
 ---
 name: nap
 description: "Quick light sleep cycle on a specific skill — N1 drift scan + N2 spindle triage only, no deep analysis or dreaming. Use when user says 'nap on [skill]'."
-disable-model-invocation: true
 context: fork
 allowed-tools:
   - Bash

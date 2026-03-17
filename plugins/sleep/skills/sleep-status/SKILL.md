@@ -1,7 +1,6 @@
 ---
 name: sleep-status
 description: "Show sleep pressure gauges for all tracked skills. Use when the user asks about skill health, sleep pressure, or says 'sleep status'."
-disable-model-invocation: true
 ---
 
 Show the current sleep pressure for all tracked skills.

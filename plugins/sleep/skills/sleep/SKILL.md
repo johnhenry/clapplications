@@ -1,7 +1,6 @@
 ---
 name: sleep
 description: "Run a sleep cycle to consolidate and improve skills. Use when the user says 'sleep', 'run a sleep cycle', or 'consolidate skills'. Checks pressure levels and dispatches the N1→N2→N3→REM pipeline."
-disable-model-invocation: true
 context: fork
 hooks:
   SessionStart:

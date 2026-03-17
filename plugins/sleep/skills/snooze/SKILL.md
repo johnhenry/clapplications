@@ -1,7 +1,6 @@
 ---
 name: snooze
 description: "Defer sleep. Accumulates debt — like hitting the snooze button. Pressure doesn't go away, it just gets masked. Use when user says 'snooze', 'not now', or 'later'."
-disable-model-invocation: true
 ---
 
 Defer the current sleep recommendation.

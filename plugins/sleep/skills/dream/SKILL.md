@@ -1,7 +1,6 @@
 ---
 name: dream
 description: "Dream about a skill to find edge cases and improvements. Use when the user says 'dream about [skill]' or 'improve [skill] through dreaming'. Generates surreal scenarios and tests patches via eval loop."
-disable-model-invocation: true
 context: fork
 hooks:
   Stop:

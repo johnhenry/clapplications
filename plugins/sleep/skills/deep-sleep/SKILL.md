@@ -1,7 +1,6 @@
 ---
 name: deep-sleep
 description: "Run autonomous deep sleep cycle. Loops until all skills are below 0.2 pressure or 4 cycles complete. Does not pause for input — NEVER STOP mode. Use for overnight consolidation."
-disable-model-invocation: true
 context: fork
 allowed-tools:
   - Bash
