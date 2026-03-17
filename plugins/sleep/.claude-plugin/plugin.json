@@ -1,0 +1,17 @@
+{
+  "name": "sleep",
+  "version": "2.0.0",
+  "description": "Autonomous skill consolidation modeled on the human sleep cycle. Tracks usage pressure, scans past conversations, generates edge-case scenarios, tests patches via subagent eval, and proposes evidence-backed improvements. Based on Borbély's two-process model and Karpathy's autoresearch pattern.",
+  "author": {
+    "name": "John Henry"
+  },
+  "license": "MIT",
+  "keywords": [
+    "sleep",
+    "dreams",
+    "consolidation",
+    "skill-improvement",
+    "autoresearch",
+    "meta-skills"
+  ]
+}

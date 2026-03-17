@@ -1,0 +1,49 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/sleep_tracker.py record"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/sleep_tracker.py check",
+            "once": true
+          }
+        ]
+      }
+    ],
+    "Setup": [
+      {
+        "matcher": "maintenance",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/sleep_tracker.py init"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/sleep_tracker.py record"
+          }
+        ]
+      }
+    ]
+  }
+}
