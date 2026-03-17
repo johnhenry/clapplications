@@ -17,6 +17,19 @@ Voice mode for Claude Code with Whisper STT and Chatterbox TTS.
 **MCP Configurations:**
 - voice-mode MCP server integration
 
+### Sleep
+
+Autonomous skill consolidation modeled on the human sleep cycle. Tracks skill usage, builds pressure over time, and runs N1→N2→N3→REM consolidation cycles that scan past conversations, generate edge-case scenarios, test patches via subagent eval, and propose evidence-backed improvements.
+
+**Commands:**
+- `/sleep` - Auto-detect pressure, run appropriate cycle
+- `/sleep [skill]` - Target a specific skill
+- `/sleep-status` - Pressure gauges for all tracked skills
+- `/deep-sleep` - Autonomous overnight mode
+- `/nap [skill]` - Quick N1→N2 triage pass
+- `/dream [skill]` - Standalone dream session on a skill
+- `/snooze` - Defer sleep, accumulate debt
+
 ## Using This Marketplace
 
 ### Installation
@@ -39,6 +52,7 @@ Once the marketplace is added, install plugins:
 
 ```bash
 /plugin install claudio@clapplications
+/plugin install sleep@clapplications
 ```
 
 ### Local Development
@@ -59,12 +73,18 @@ clapplications/
 ├── .claude-plugin/
 │   └── marketplace.json        # Marketplace catalog
 └── plugins/
-    └── claudio/
+    ├── claudio/
+    │   ├── .claude-plugin/
+    │   │   └── plugin.json     # Plugin manifest
+    │   ├── commands/           # Plugin commands
+    │   ├── scripts/            # Plugin scripts
+    │   └── mcp.json           # MCP configuration
+    └── sleep/
         ├── .claude-plugin/
         │   └── plugin.json     # Plugin manifest
-        ├── commands/           # Plugin commands
-        ├── scripts/            # Plugin scripts
-        └── mcp.json           # MCP configuration
+        ├── skills/             # Sleep cycle skills
+        ├── hooks/              # Hook definitions
+        └── scripts/            # State tracker
 ```
 
 ### Adding New Plugins
@@ -105,7 +125,8 @@ Add to `.claude/settings.json` for automatic marketplace configuration:
     }
   },
   "enabledPlugins": {
-    "claudio@clapplications": true
+    "claudio@clapplications": true,
+    "sleep@clapplications": true
   }
 }
 ```

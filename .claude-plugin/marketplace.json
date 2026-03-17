@@ -19,6 +19,17 @@
       },
       "category": "utilities",
       "tags": ["voice", "audio", "communication", "tts", "stt"]
+    },
+    {                                                                                                              
+        "name": "sleep",                                                                                             
+        "source": "./plugins/sleep",                                                                                 
+        "description": "Autonomous skill consolidation modeled on the human sleep cycle",                            
+        "version": "2.0.0",                                                                                          
+        "author": {                                                                                                  
+            "name": "John Henry"                                                                                       
+        },                                                                                                           
+        "category": "utilities",                                                                                     
+        "tags": ["sleep", "dreams", "consolidation", "skill-improvement", "autoresearch", "meta-skills"]             
     }
   ]
 }
