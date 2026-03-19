@@ -1,0 +1,454 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400">
+  <defs>
+    <!-- Watercolor filters -->
+    <filter id="wc" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="4" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="12" xChannelSelector="R" yChannelSelector="G" result="displaced"/>
+      <feGaussianBlur in="displaced" stdDeviation="1.5" result="blurred"/>
+      <feComponentTransfer in="blurred"><feFuncA type="linear" slope="0.85" intercept="0"/></feComponentTransfer>
+    </filter>
+    <filter id="wc-heavy" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="5" seed="13" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="18" xChannelSelector="R" yChannelSelector="G" result="displaced"/>
+      <feGaussianBlur in="displaced" stdDeviation="2.5" result="blurred"/>
+      <feComponentTransfer in="blurred"><feFuncA type="linear" slope="0.7" intercept="0"/></feComponentTransfer>
+    </filter>
+    <filter id="wc-light" x="-15%" y="-15%" width="130%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="3" seed="19" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="8" xChannelSelector="R" yChannelSelector="G" result="displaced"/>
+      <feGaussianBlur in="displaced" stdDeviation="1" result="blurred"/>
+      <feComponentTransfer in="blurred"><feFuncA type="linear" slope="0.9" intercept="0"/></feComponentTransfer>
+    </filter>
+    <filter id="paper" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="4" seed="2" result="paper"/>
+      <feColorMatrix in="paper" type="saturate" values="0" result="gray"/>
+      <feComponentTransfer in="gray" result="faint"><feFuncA type="linear" slope="0.1" intercept="0"/></feComponentTransfer>
+      <feBlend in="SourceGraphic" in2="faint" mode="multiply"/>
+    </filter>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="6" result="glow"/>
+      <feComposite in="SourceGraphic" in2="glow" operator="over"/>
+    </filter>
+    <filter id="glow-soft">
+      <feGaussianBlur stdDeviation="10" result="glow"/>
+      <feComposite in="SourceGraphic" in2="glow" operator="over"/>
+    </filter>
+    <filter id="ink" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="3" seed="42" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="6" xChannelSelector="R" yChannelSelector="G"/>
+      <feGaussianBlur stdDeviation="0.8"/>
+    </filter>
+    <filter id="ink-fine" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.07" numOctaves="2" seed="55" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G"/>
+      <feGaussianBlur stdDeviation="0.4"/>
+    </filter>
+    <filter id="dream-blur">
+      <feGaussianBlur stdDeviation="3"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.6" intercept="0"/></feComponentTransfer>
+    </filter>
+
+    <!-- Gradients -->
+    <radialGradient id="moonGlow" cx="50%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#d8c8f0" stop-opacity="0.6"/>
+      <stop offset="30%" stop-color="#a898d0" stop-opacity="0.35"/>
+      <stop offset="60%" stop-color="#7b68ae" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#2a1b4e" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f0820"/>
+      <stop offset="25%" stop-color="#1a0f33"/>
+      <stop offset="50%" stop-color="#2d1f5e"/>
+      <stop offset="75%" stop-color="#3a2468"/>
+      <stop offset="100%" stop-color="#1f1040"/>
+    </linearGradient>
+    <linearGradient id="robe" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#5a4290"/>
+      <stop offset="20%" stop-color="#6b52a8"/>
+      <stop offset="50%" stop-color="#4a3680"/>
+      <stop offset="80%" stop-color="#3d2b6b"/>
+      <stop offset="100%" stop-color="#241550"/>
+    </linearGradient>
+    <linearGradient id="robe-inner" x1="0.2" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7a62c0"/>
+      <stop offset="50%" stop-color="#5a4290"/>
+      <stop offset="100%" stop-color="#3a2568"/>
+    </linearGradient>
+    <linearGradient id="skin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f0e0d0"/>
+      <stop offset="50%" stop-color="#e8d5c4"/>
+      <stop offset="100%" stop-color="#c9a88a"/>
+    </linearGradient>
+    <linearGradient id="hair" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a1a30"/>
+      <stop offset="40%" stop-color="#2d2d5e"/>
+      <stop offset="70%" stop-color="#1a1a38"/>
+      <stop offset="100%" stop-color="#0f0f1a"/>
+    </linearGradient>
+    <radialGradient id="dreamMist" cx="55%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#c8b0e8" stop-opacity="0.35"/>
+      <stop offset="40%" stop-color="#9880c8" stop-opacity="0.2"/>
+      <stop offset="70%" stop-color="#7b5cb8" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#4a3080" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="dreamMist2" cx="35%" cy="60%" r="45%">
+      <stop offset="0%" stop-color="#a890d0" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#5a4080" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="poppy" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#b83040"/>
+      <stop offset="50%" stop-color="#9b2335"/>
+      <stop offset="100%" stop-color="#6a1520"/>
+    </linearGradient>
+    <linearGradient id="poppy2" x1="0.3" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d04050"/>
+      <stop offset="100%" stop-color="#8a1a28"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e8c860"/>
+      <stop offset="50%" stop-color="#c8a850"/>
+      <stop offset="100%" stop-color="#a08030"/>
+    </linearGradient>
+    <linearGradient id="gold-dark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#c8a040"/>
+      <stop offset="100%" stop-color="#806020"/>
+    </linearGradient>
+    <linearGradient id="stem" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4a6a38"/>
+      <stop offset="100%" stop-color="#2a4020"/>
+    </linearGradient>
+
+    <!-- Ornamental pattern for robe -->
+    <pattern id="robePattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+      <rect width="20" height="20" fill="none"/>
+      <circle cx="10" cy="10" r="3" fill="#8070b0" opacity="0.08"/>
+      <path d="M 0,10 Q 5,5 10,10 Q 15,15 20,10" stroke="#7060a0" stroke-width="0.3" fill="none" opacity="0.06"/>
+      <path d="M 10,0 Q 5,5 10,10 Q 15,15 10,20" stroke="#7060a0" stroke-width="0.3" fill="none" opacity="0.06"/>
+    </pattern>
+  </defs>
+
+  <!-- Paper base -->
+  <rect width="800" height="400" fill="#f5f0e8" filter="url(#paper)"/>
+
+  <!-- Night sky - layered washes -->
+  <rect x="0" y="0" width="800" height="400" fill="url(#sky)" opacity="0.9" filter="url(#wc-heavy)"/>
+
+  <!-- Nebula / cosmic dust layers -->
+  <ellipse cx="200" cy="80" rx="250" ry="120" fill="#2a1850" opacity="0.3" filter="url(#wc-heavy)"/>
+  <ellipse cx="600" cy="300" rx="200" ry="150" fill="#1a1040" opacity="0.25" filter="url(#wc-heavy)"/>
+  <ellipse cx="400" cy="200" rx="350" ry="200" fill="#201548" opacity="0.15" filter="url(#wc-heavy)"/>
+
+  <!-- Moon - detailed with craters suggestion -->
+  <ellipse cx="620" cy="85" rx="200" ry="180" fill="url(#moonGlow)" filter="url(#wc)"/>
+  <circle cx="630" cy="80" r="52" fill="#e0d4f0" opacity="0.12" filter="url(#wc)"/>
+  <circle cx="630" cy="80" r="38" fill="#e8dff8" opacity="0.18" filter="url(#wc)"/>
+  <circle cx="630" cy="80" r="25" fill="#f0eaf8" opacity="0.12" filter="url(#wc-light)"/>
+  <!-- Moon surface detail -->
+  <circle cx="620" cy="72" r="6" fill="#d0c0e8" opacity="0.06" filter="url(#wc-light)"/>
+  <circle cx="640" cy="85" r="4" fill="#c8b8e0" opacity="0.05" filter="url(#wc-light)"/>
+  <circle cx="625" cy="90" r="3" fill="#d0c0e8" opacity="0.04" filter="url(#wc-light)"/>
+
+  <!-- Stars - varied sizes and brightness -->
+  <g filter="url(#glow)" opacity="0.7">
+    <circle cx="80" cy="25" r="1.8" fill="#e8dff8"/>
+    <circle cx="120" cy="45" r="1.2" fill="#d8c8f0"/>
+    <circle cx="200" cy="20" r="0.8" fill="#e0d0f0"/>
+    <circle cx="250" cy="70" r="1" fill="#d0c0f0"/>
+    <circle cx="310" cy="15" r="1.4" fill="#e8dff8"/>
+    <circle cx="380" cy="30" r="1" fill="#e8dff8"/>
+    <circle cx="420" cy="60" r="0.7" fill="#c8b8e8"/>
+    <circle cx="500" cy="55" r="0.9" fill="#c8b8e8"/>
+    <circle cx="540" cy="20" r="1.1" fill="#e0d0f0"/>
+    <circle cx="700" cy="40" r="1.5" fill="#e8dff8"/>
+    <circle cx="750" cy="25" r="0.8" fill="#d0c0f0"/>
+    <circle cx="150" cy="120" r="0.6" fill="#d8c8f0"/>
+    <circle cx="450" cy="80" r="0.9" fill="#e0d0f0"/>
+    <circle cx="680" cy="150" r="0.7" fill="#d0c0e8"/>
+    <circle cx="90" cy="85" r="1" fill="#e8dff8"/>
+    <circle cx="50" cy="60" r="0.5" fill="#c8b8e8"/>
+    <circle cx="350" cy="50" r="0.6" fill="#d8c8f0"/>
+    <circle cx="770" cy="70" r="0.8" fill="#e0d0f0"/>
+  </g>
+  <!-- Brighter feature stars with cross-flare -->
+  <g filter="url(#glow-soft)" opacity="0.4">
+    <line x1="75" y1="25" x2="85" y2="25" stroke="#e8dff8" stroke-width="0.5"/>
+    <line x1="80" y1="20" x2="80" y2="30" stroke="#e8dff8" stroke-width="0.5"/>
+    <line x1="305" y1="15" x2="315" y2="15" stroke="#e8dff8" stroke-width="0.4"/>
+    <line x1="310" y1="10" x2="310" y2="20" stroke="#e8dff8" stroke-width="0.4"/>
+    <line x1="695" y1="40" x2="705" y2="40" stroke="#e8dff8" stroke-width="0.4"/>
+    <line x1="700" y1="35" x2="700" y2="45" stroke="#e8dff8" stroke-width="0.4"/>
+  </g>
+
+  <!-- Dream mist layers -->
+  <ellipse cx="350" cy="260" rx="320" ry="180" fill="url(#dreamMist)" filter="url(#wc-heavy)"/>
+  <ellipse cx="280" cy="300" rx="250" ry="150" fill="url(#dreamMist2)" filter="url(#wc-heavy)"/>
+
+  <!-- Ground mist -->
+  <ellipse cx="400" cy="395" rx="400" ry="40" fill="#6050a0" opacity="0.15" filter="url(#wc-heavy)"/>
+  <ellipse cx="300" cy="390" rx="250" ry="30" fill="#8070b0" opacity="0.1" filter="url(#wc-heavy)"/>
+
+  <!-- Poppy field in foreground (scattered poppies) -->
+  <g filter="url(#ink)" opacity="0.5">
+    <!-- Far poppies -->
+    <g transform="translate(80,370)">
+      <line x1="0" y1="0" x2="-2" y2="-18" stroke="#3a5030" stroke-width="0.8"/>
+      <ellipse cx="-2" cy="-20" rx="4" ry="3" fill="#8a1a28" opacity="0.6"/>
+    </g>
+    <g transform="translate(120,375)">
+      <line x1="0" y1="0" x2="1" y2="-14" stroke="#3a5030" stroke-width="0.7"/>
+      <ellipse cx="1" cy="-16" rx="3.5" ry="2.5" fill="#9b2335" opacity="0.5"/>
+    </g>
+    <g transform="translate(160,368)">
+      <line x1="0" y1="0" x2="-1" y2="-20" stroke="#4a6038" stroke-width="0.8"/>
+      <ellipse cx="-1" cy="-22" rx="5" ry="3.5" fill="#b83040" opacity="0.55"/>
+      <circle cx="-1" cy="-22" r="1.2" fill="#1a0a10" opacity="0.4"/>
+    </g>
+    <g transform="translate(500,372)">
+      <line x1="0" y1="0" x2="2" y2="-16" stroke="#3a5030" stroke-width="0.7"/>
+      <ellipse cx="2" cy="-18" rx="4" ry="2.8" fill="#9b2335" opacity="0.5"/>
+    </g>
+    <g transform="translate(560,378)">
+      <line x1="0" y1="0" x2="-1" y2="-12" stroke="#3a5030" stroke-width="0.6"/>
+      <ellipse cx="-1" cy="-14" rx="3" ry="2" fill="#8a1a28" opacity="0.45"/>
+    </g>
+    <g transform="translate(640,370)">
+      <line x1="0" y1="0" x2="1" y2="-19" stroke="#4a6038" stroke-width="0.8"/>
+      <ellipse cx="1" cy="-21" rx="4.5" ry="3" fill="#b83040" opacity="0.5"/>
+      <circle cx="1" cy="-21" r="1" fill="#1a0a10" opacity="0.35"/>
+    </g>
+    <g transform="translate(700,376)">
+      <line x1="0" y1="0" x2="-2" y2="-14" stroke="#3a5030" stroke-width="0.6"/>
+      <ellipse cx="-2" cy="-16" rx="3.5" ry="2.5" fill="#9b2335" opacity="0.4"/>
+    </g>
+  </g>
+
+  <!-- ===== MORPHEUS FIGURE ===== -->
+  <g filter="url(#wc)">
+
+    <!-- Robe base - wide flowing cascade -->
+    <path d="M 330,148 C 318,175 298,220 280,268 C 264,310 248,355 232,400 L 430,400 C 420,360 406,315 394,275 C 382,235 368,190 352,148 Z" fill="url(#robe)" opacity="0.92"/>
+
+    <!-- Robe ornamental overlay -->
+    <path d="M 330,148 C 318,175 298,220 280,268 C 264,310 248,355 232,400 L 430,400 C 420,360 406,315 394,275 C 382,235 368,190 352,148 Z" fill="url(#robePattern)" opacity="0.6"/>
+
+    <!-- Robe deep folds - left -->
+    <path d="M 322,178 C 312,210 298,255 284,300 C 278,320 268,350 258,385 L 275,385 C 282,352 292,318 300,288 C 310,252 318,215 326,180 Z" fill="#5a4290" opacity="0.45"/>
+    <path d="M 310,195 C 302,225 290,265 278,305 C 272,325 265,355 256,390 L 248,390 C 255,358 264,325 272,295 C 284,255 296,218 306,192 Z" fill="#3a2568" opacity="0.35"/>
+
+    <!-- Robe deep folds - right -->
+    <path d="M 350,162 C 360,198 374,248 384,290 C 390,312 400,348 408,388 L 393,388 C 386,350 378,315 372,285 C 362,248 352,200 347,165 Z" fill="#3a2568" opacity="0.4"/>
+    <path d="M 358,175 C 366,208 376,250 386,295 C 392,318 400,355 410,395 L 418,395 C 410,358 402,320 395,290 C 384,248 372,205 362,178 Z" fill="#5a4290" opacity="0.3"/>
+
+    <!-- Robe hem details - trailing wisps -->
+    <path d="M 232,400 C 238,385 235,368 225,380 C 218,390 225,398 232,400 Z" fill="#4a3680" opacity="0.4"/>
+    <path d="M 245,400 C 242,390 238,380 234,392 C 232,398 240,400 245,400 Z" fill="#3a2568" opacity="0.3"/>
+    <path d="M 430,400 C 424,382 428,365 438,378 C 444,388 436,398 430,400 Z" fill="#4a3680" opacity="0.4"/>
+    <path d="M 418,400 C 420,388 424,378 428,390 C 430,396 422,400 418,400 Z" fill="#3a2568" opacity="0.3"/>
+
+    <!-- Inner robe lining visible at folds -->
+    <path d="M 270,310 C 265,325 258,345 252,365 L 262,365 C 266,348 272,328 276,312 Z" fill="url(#robe-inner)" opacity="0.3"/>
+    <path d="M 396,305 C 400,322 406,345 412,368 L 404,368 C 399,348 394,325 392,310 Z" fill="url(#robe-inner)" opacity="0.3"/>
+
+    <!-- Left sleeve - dramatically extended, ornate cuff -->
+    <path d="M 305,188 C 278,196 248,202 218,208 C 195,213 170,222 152,235 C 142,243 135,250 130,255 C 128,258 132,256 140,248 C 155,235 178,224 202,216 C 230,208 260,200 290,194 Z" fill="url(#robe)" opacity="0.82"/>
+    <!-- Sleeve fold detail -->
+    <path d="M 290,195 C 265,202 238,208 212,214 C 195,218 180,225 168,232 C 175,226 190,220 208,215 C 235,208 262,202 285,196 Z" fill="#5a4290" opacity="0.3"/>
+    <!-- Ornate cuff -->
+    <path d="M 152,235 C 148,240 142,246 138,250 L 130,255 C 132,252 136,248 140,244 C 144,240 148,237 152,235 Z" fill="url(#gold)" opacity="0.35" filter="url(#ink-fine)"/>
+
+    <!-- Right sleeve -->
+    <path d="M 358,182 C 385,190 415,196 445,204 C 465,210 490,220 508,232 C 518,240 525,248 528,252 C 530,255 526,252 518,244 C 505,232 482,222 460,214 C 435,206 408,198 380,192 Z" fill="url(#robe)" opacity="0.82"/>
+    <path d="M 380,192 C 405,198 432,205 455,212 C 472,218 488,226 500,234 C 490,228 475,220 458,214 C 435,207 408,200 384,194 Z" fill="#5a4290" opacity="0.3"/>
+    <path d="M 508,232 C 514,238 520,244 524,248 L 528,252 C 526,250 522,246 518,242 C 514,238 510,234 508,232 Z" fill="url(#gold)" opacity="0.35" filter="url(#ink-fine)"/>
+
+    <!-- Hands - elongated, delicate, Kojima-style long fingers -->
+    <!-- Left hand holding poppy stem -->
+    <g filter="url(#ink-fine)">
+      <path d="M 130,255 C 126,260 120,266 116,268 C 113,269 112,267 114,264 C 116,260 122,256 126,253 Z" fill="url(#skin)" opacity="0.75"/>
+      <!-- Individual fingers -->
+      <path d="M 116,268 C 112,272 108,275 106,274 C 105,272 108,269 112,266 Z" fill="url(#skin)" opacity="0.7"/>
+      <path d="M 118,266 C 114,270 110,274 108,273 C 107,271 110,268 114,264 Z" fill="url(#skin)" opacity="0.65"/>
+      <path d="M 120,264 C 117,268 114,271 112,270 C 111,268 114,265 117,262 Z" fill="url(#skin)" opacity="0.6"/>
+    </g>
+
+    <!-- Right hand -->
+    <g filter="url(#ink-fine)">
+      <path d="M 528,252 C 532,256 538,262 540,265 C 541,267 539,268 536,266 C 532,262 528,256 526,253 Z" fill="url(#skin)" opacity="0.75"/>
+      <path d="M 540,265 C 543,268 546,272 545,274 C 544,275 541,272 538,268 Z" fill="url(#skin)" opacity="0.7"/>
+      <path d="M 538,264 C 541,267 544,271 543,272 C 542,273 539,270 537,266 Z" fill="url(#skin)" opacity="0.65"/>
+    </g>
+
+    <!-- Poppy in left hand - detailed -->
+    <g transform="translate(105,268)" filter="url(#ink)">
+      <!-- Stem with curve -->
+      <path d="M 5,-2 C 3,-12 1,-25 0,-38 C -1,-45 -1,-50 0,-55" stroke="url(#stem)" stroke-width="1.5" fill="none"/>
+      <!-- Leaves on stem -->
+      <path d="M 2,-18 C 6,-22 10,-20 8,-16 C 6,-14 3,-16 2,-18 Z" fill="#4a6a38" opacity="0.6"/>
+      <path d="M -1,-30 C -5,-34 -8,-32 -6,-28 C -4,-26 -1,-28 -1,-30 Z" fill="#3a5a30" opacity="0.5"/>
+      <!-- Poppy bloom - layered petals -->
+      <ellipse cx="-2" cy="-58" rx="12" ry="9" fill="url(#poppy)" opacity="0.75"/>
+      <ellipse cx="2" cy="-60" rx="10" ry="8" fill="url(#poppy2)" opacity="0.6"/>
+      <ellipse cx="-4" cy="-56" rx="8" ry="6" fill="#c84050" opacity="0.4"/>
+      <ellipse cx="4" cy="-59" rx="7" ry="5" fill="#a82838" opacity="0.35"/>
+      <!-- Petal veins -->
+      <path d="M -8,-58 C -4,-60 0,-58" stroke="#6a1520" stroke-width="0.3" fill="none" opacity="0.3"/>
+      <path d="M 4,-62 C 6,-60 8,-56" stroke="#6a1520" stroke-width="0.3" fill="none" opacity="0.3"/>
+      <!-- Center -->
+      <circle cx="0" cy="-58" r="3" fill="#1a0a10" opacity="0.6"/>
+      <circle cx="0" cy="-58" r="1.5" fill="#2a1520" opacity="0.4"/>
+      <!-- Stamen dots -->
+      <circle cx="-1.5" cy="-59.5" r="0.5" fill="#c8a040" opacity="0.4"/>
+      <circle cx="1.5" cy="-59" r="0.5" fill="#c8a040" opacity="0.4"/>
+      <circle cx="0" cy="-60.5" r="0.4" fill="#c8a040" opacity="0.3"/>
+    </g>
+
+    <!-- Neck - longer, more elegant -->
+    <path d="M 326,148 C 328,136 332,126 337,118 C 342,126 346,136 348,148 Z" fill="url(#skin)" opacity="0.72"/>
+    <!-- Collar bone suggestion -->
+    <path d="M 318,150 C 328,146 338,144 348,146 C 352,147 356,150 358,152" stroke="#c9a88a" stroke-width="0.5" fill="none" opacity="0.2"/>
+
+    <!-- Face - elongated, serene, eyes closed in dream -->
+    <ellipse cx="337" cy="100" rx="23" ry="30" fill="url(#skin)" opacity="0.78" filter="url(#ink)"/>
+
+    <!-- Facial structure - cheekbones, jaw -->
+    <path d="M 316,105 C 318,110 322,118 330,124 C 335,127 340,127 345,124 C 352,118 356,110 358,105" fill="url(#skin)" opacity="0.15"/>
+
+    <!-- Eyes - closed, long lashes, dreaming -->
+    <path d="M 324,96 C 328,93 333,93 337,96" stroke="#2a1a3e" stroke-width="1.2" fill="none" opacity="0.65"/>
+    <path d="M 340,95 C 344,92 349,92 353,95" stroke="#2a1a3e" stroke-width="1.2" fill="none" opacity="0.65"/>
+    <!-- Detailed eyelashes -->
+    <path d="M 323,97 C 322,95 320,92 319,90" stroke="#2a1a3e" stroke-width="0.6" fill="none" opacity="0.4"/>
+    <path d="M 326,95 C 325,93 324,91 323,89" stroke="#2a1a3e" stroke-width="0.4" fill="none" opacity="0.3"/>
+    <path d="M 354,96 C 355,94 357,91 358,89" stroke="#2a1a3e" stroke-width="0.6" fill="none" opacity="0.4"/>
+    <path d="M 351,94 C 352,92 353,90 354,88" stroke="#2a1a3e" stroke-width="0.4" fill="none" opacity="0.3"/>
+    <!-- Eyebrows - delicate arches -->
+    <path d="M 322,90 C 326,87 332,86 338,88" stroke="#1a1a30" stroke-width="0.7" fill="none" opacity="0.3"/>
+    <path d="M 338,87 C 344,85 350,86 354,89" stroke="#1a1a30" stroke-width="0.7" fill="none" opacity="0.3"/>
+
+    <!-- Nose - subtle suggestion -->
+    <path d="M 336,96 C 335,100 334,104 333,107 C 332,108 334,109 336,108" stroke="#c9a88a" stroke-width="0.6" fill="none" opacity="0.25"/>
+
+    <!-- Lips - soft, gentle, slightly parted -->
+    <path d="M 330,113 C 333,111 337,110 341,111 C 343,112 342,113 340,114 C 337,115 333,115 331,114 C 330,113 330,113 330,113 Z" fill="#c4868a" opacity="0.45"/>
+    <path d="M 332,113.5 C 334,112.5 338,112.5 340,113.5" stroke="#b07078" stroke-width="0.4" fill="none" opacity="0.3"/>
+
+    <!-- Hair - flowing dark waves with detail -->
+    <path d="M 314,92 C 306,75 304,55 312,40 C 320,28 332,24 345,27 C 358,30 368,42 370,58 C 372,70 368,85 360,98 C 356,88 352,72 347,62 C 342,52 333,46 325,50 C 318,55 316,72 316,88 Z" fill="url(#hair)" opacity="0.88" filter="url(#ink)"/>
+
+    <!-- Hair flowing strands - left -->
+    <path d="M 312,40 C 300,52 288,75 284,105 C 282,120 284,138 290,155 C 294,168 298,178 302,185 C 298,172 294,158 292,142 C 289,120 292,98 300,78 C 306,62 310,50 312,44 Z" fill="#1a1a2e" opacity="0.55" filter="url(#ink)"/>
+    <path d="M 306,52 C 296,65 288,85 285,110 C 283,128 286,148 292,165 C 288,148 285,130 287,112 C 290,88 298,68 308,55 Z" fill="#22224a" opacity="0.35" filter="url(#ink)"/>
+
+    <!-- Hair flowing strands - right -->
+    <path d="M 370,58 C 380,70 386,90 388,115 C 389,132 386,152 380,168 C 376,178 372,185 368,190 C 372,178 376,162 378,145 C 380,125 378,105 374,85 C 372,72 370,62 370,60 Z" fill="#1a1a2e" opacity="0.55" filter="url(#ink)"/>
+    <path d="M 374,68 C 382,80 388,98 390,120 C 391,138 388,158 382,172 C 386,155 389,138 388,118 C 386,96 380,78 376,70 Z" fill="#22224a" opacity="0.35" filter="url(#ink)"/>
+
+    <!-- Hair highlights -->
+    <path d="M 330,35 C 335,32 342,32 348,35" stroke="#3a3a6e" stroke-width="0.8" fill="none" opacity="0.2"/>
+    <path d="M 322,45 C 326,42 330,40 335,42" stroke="#3a3a6e" stroke-width="0.6" fill="none" opacity="0.15"/>
+
+    <!-- Crown/tiara - ornate crescent horns with jewels -->
+    <g filter="url(#ink)">
+      <!-- Left horn -->
+      <path d="M 318,42 C 310,28 304,12 314,4 C 320,0 326,6 324,20 C 322,30 320,38 319,42 Z" fill="url(#gold)" opacity="0.6"/>
+      <path d="M 320,38 C 314,26 310,14 316,6 C 318,4 322,6 322,14 C 322,22 320,32 320,38 Z" fill="url(#gold-dark)" opacity="0.3"/>
+      <!-- Right horn -->
+      <path d="M 356,38 C 364,24 370,8 360,0 C 354,-4 348,2 350,18 C 352,28 354,34 355,38 Z" fill="url(#gold)" opacity="0.6"/>
+      <path d="M 354,34 C 360,22 364,12 358,4 C 356,2 352,4 352,12 C 352,20 354,28 354,34 Z" fill="url(#gold-dark)" opacity="0.3"/>
+      <!-- Central jewel mount -->
+      <path d="M 330,30 C 332,26 336,24 340,26 C 342,28 340,32 336,33 C 333,33 330,32 330,30 Z" fill="url(#gold)" opacity="0.5"/>
+      <!-- Central amethyst -->
+      <circle cx="336" cy="28" r="4" fill="#6840a8" opacity="0.7"/>
+      <circle cx="336" cy="28" r="2.5" fill="#8860c8" opacity="0.6"/>
+      <circle cx="335" cy="27" r="1" fill="#b890f0" opacity="0.5"/>
+      <!-- Side jewels -->
+      <circle cx="322" cy="22" r="2" fill="#6840a8" opacity="0.45"/>
+      <circle cx="322" cy="22" r="1" fill="#9870d8" opacity="0.35"/>
+      <circle cx="352" cy="20" r="2" fill="#6840a8" opacity="0.45"/>
+      <circle cx="352" cy="20" r="1" fill="#9870d8" opacity="0.35"/>
+      <!-- Filigree connecting horns -->
+      <path d="M 320,32 C 326,28 332,27 336,28 C 340,27 348,28 354,32" stroke="url(#gold)" stroke-width="0.8" fill="none" opacity="0.4"/>
+      <path d="M 324,30 C 328,27 334,26 336,27" stroke="url(#gold)" stroke-width="0.4" fill="none" opacity="0.3"/>
+      <path d="M 350,28 C 346,26 340,26 336,27" stroke="url(#gold)" stroke-width="0.4" fill="none" opacity="0.3"/>
+    </g>
+
+    <!-- Necklace / chest ornament -->
+    <g filter="url(#ink-fine)" opacity="0.4">
+      <path d="M 322,148 C 328,142 334,140 340,142 C 346,144 350,148 354,152" stroke="url(#gold)" stroke-width="0.8" fill="none"/>
+      <circle cx="338" cy="145" r="2" fill="#6840a8" opacity="0.5"/>
+      <path d="M 326,146 C 330,150 336,152 342,150 C 346,148 350,146 352,144" stroke="url(#gold)" stroke-width="0.5" fill="none" opacity="0.6"/>
+    </g>
+
+    <!-- Belt/sash ornament -->
+    <g filter="url(#ink-fine)" opacity="0.35">
+      <path d="M 310,195 C 320,190 336,188 350,190 C 358,192 364,196 368,200" stroke="url(#gold)" stroke-width="1" fill="none"/>
+      <path d="M 312,198 C 322,193 336,191 350,193 C 356,195 362,198 366,202" stroke="url(#gold-dark)" stroke-width="0.5" fill="none"/>
+      <!-- Belt jewel -->
+      <circle cx="340" cy="192" r="2.5" fill="#6840a8" opacity="0.4"/>
+      <circle cx="340" cy="192" r="1.2" fill="#9870d8" opacity="0.3"/>
+    </g>
+  </g>
+
+  <!-- Floating dream fragments - more numerous and varied -->
+  <g filter="url(#wc-heavy)" opacity="0.35">
+    <path d="M 130,130 C 140,120 152,125 148,136 C 144,146 126,140 130,130 Z" fill="#a888d0"/>
+    <path d="M 490,140 C 502,130 516,136 508,150 C 502,160 484,152 490,140 Z" fill="#9878c0"/>
+    <path d="M 150,280 C 160,270 172,276 166,288 C 160,298 144,290 150,280 Z" fill="#b898e0"/>
+    <path d="M 475,280 C 488,272 498,280 490,294 C 482,304 468,292 475,280 Z" fill="#a080c8"/>
+    <path d="M 100,200 C 108,192 118,196 114,206 C 110,214 96,208 100,200 Z" fill="#c0a8e8"/>
+    <path d="M 530,200 C 540,192 550,198 544,210 C 540,218 524,210 530,200 Z" fill="#8868b0"/>
+  </g>
+
+  <!-- Dreaming butterflies / moths -->
+  <g filter="url(#wc-light)" opacity="0.3">
+    <g transform="translate(180,160) rotate(-15)">
+      <path d="M 0,0 C -6,-8 -12,-6 -8,0 C -12,6 -6,8 0,0 Z" fill="#b898e0"/>
+      <path d="M 0,0 C 6,-8 12,-6 8,0 C 12,6 6,8 0,0 Z" fill="#a888d0"/>
+      <line x1="0" y1="-2" x2="0" y2="2" stroke="#5a4080" stroke-width="0.3"/>
+    </g>
+    <g transform="translate(480,170) rotate(10)">
+      <path d="M 0,0 C -5,-7 -10,-5 -7,0 C -10,5 -5,7 0,0 Z" fill="#a080c8"/>
+      <path d="M 0,0 C 5,-7 10,-5 7,0 C 10,5 5,7 0,0 Z" fill="#9070b8"/>
+      <line x1="0" y1="-1.5" x2="0" y2="1.5" stroke="#5a4080" stroke-width="0.3"/>
+    </g>
+    <g transform="translate(560,260) rotate(-25)">
+      <path d="M 0,0 C -4,-6 -9,-4 -6,0 C -9,4 -4,6 0,0 Z" fill="#b898e0" opacity="0.7"/>
+      <path d="M 0,0 C 4,-6 9,-4 6,0 C 9,4 4,6 0,0 Z" fill="#a888d0" opacity="0.7"/>
+    </g>
+  </g>
+
+  <!-- Floating poppy petals -->
+  <g filter="url(#wc)" opacity="0.4">
+    <ellipse cx="540" cy="180" rx="8" ry="5" fill="#9b2335" transform="rotate(-20,540,180)"/>
+    <ellipse cx="160" cy="330" rx="7" ry="4" fill="#7a1a2a" transform="rotate(35,160,330)"/>
+    <ellipse cx="480" cy="340" rx="6" ry="3.5" fill="#b83040" transform="rotate(-45,480,340)"/>
+    <ellipse cx="600" cy="280" rx="5" ry="3" fill="#9b2335" opacity="0.6" transform="rotate(15,600,280)"/>
+    <ellipse cx="680" cy="320" rx="4" ry="2.5" fill="#8a1a28" opacity="0.5" transform="rotate(-30,680,320)"/>
+  </g>
+
+  <!-- Ornate border flourishes - more detailed -->
+  <g filter="url(#ink)" opacity="0.28">
+    <!-- Bottom left -->
+    <path d="M 20,385 C 40,374 60,378 80,372 C 100,366 120,362 140,366 C 120,370 100,372 80,375 C 60,378 40,380 25,386 Z" fill="url(#gold)"/>
+    <path d="M 140,366 C 155,362 170,364 180,368 C 170,367 158,365 148,367 Z" fill="url(#gold)" opacity="0.6"/>
+    <!-- Decorative curl -->
+    <path d="M 25,384 C 18,378 15,370 20,365 C 24,362 28,366 26,372 C 24,376 22,380 24,383 Z" fill="url(#gold)" opacity="0.5"/>
+
+    <!-- Bottom right -->
+    <path d="M 780,385 C 760,374 740,378 720,372 C 700,366 680,362 660,366 C 680,370 700,372 720,375 C 740,378 760,380 775,386 Z" fill="url(#gold)"/>
+    <path d="M 660,366 C 645,362 630,364 620,368 C 630,367 642,365 652,367 Z" fill="url(#gold)" opacity="0.6"/>
+    <path d="M 775,384 C 782,378 785,370 780,365 C 776,362 772,366 774,372 C 776,376 778,380 776,383 Z" fill="url(#gold)" opacity="0.5"/>
+
+    <!-- Top left -->
+    <path d="M 20,15 C 40,26 60,22 80,28 C 100,33 120,30 140,26 C 120,28 100,30 80,26 C 60,22 40,24 25,18 Z" fill="url(#gold)"/>
+    <path d="M 25,16 C 18,22 15,30 20,35 C 24,38 28,34 26,28 C 24,24 22,20 24,17 Z" fill="url(#gold)" opacity="0.5"/>
+
+    <!-- Top right -->
+    <path d="M 780,15 C 760,26 740,22 720,28 C 700,33 680,30 660,26 C 680,28 700,30 720,26 C 740,22 760,24 775,18 Z" fill="url(#gold)"/>
+    <path d="M 775,16 C 782,22 785,30 780,35 C 776,38 772,34 774,28 C 776,24 778,20 776,17 Z" fill="url(#gold)" opacity="0.5"/>
+  </g>
+
+  <!-- Title -->
+  <text x="400" y="384" text-anchor="middle" font-family="'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif" font-size="20" letter-spacing="10" fill="#c8b8e8" opacity="0.75" filter="url(#ink)">MORPHEUS</text>
+  <text x="400" y="397" text-anchor="middle" font-family="'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif" font-size="9" letter-spacing="5" fill="#8878a8" opacity="0.5">GOD OF DREAMS</text>
+</svg>

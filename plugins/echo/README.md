@@ -1,4 +1,8 @@
-# Claudio Voice Plugin for Claude Code
+<p align="center">
+  <img src="assets/splash-v2.svg" alt="Echo — Nymph of the Voice" width="600"/>
+</p>
+
+# Echo Voice Plugin for Claude Code
 
 Voice mode plugin that enables hands-free conversation with Claude using SenseVoice (speech-to-text) and Qwen3-TTS (text-to-speech) - both from the Alibaba ecosystem.
 
@@ -24,16 +28,16 @@ Voice mode plugin that enables hands-free conversation with Claude using SenseVo
 ### Installation
 
 1. Copy this plugin directory to your Claude Code plugins folder
-2. Start voice services with `/claudio:up` (installs automatically if needed)
+2. Start voice services with `/echo:up` (installs automatically if needed)
 3. **If this is your first time**: Restart Claude Code to activate the MCP server
 
 ### Usage
 
 ```bash
 # Start voice services (installs if needed)
-/claudio:up
+/echo:up
 
-# IMPORTANT: If this is your first time running /claudio:up:
+# IMPORTANT: If this is your first time running /echo:up:
 # You MUST restart Claude Code for the voice-mode MCP server to become available!
 
 # Then just talk naturally to Claude:
@@ -48,7 +52,7 @@ Voice mode plugin that enables hands-free conversation with Claude using SenseVo
 
 **That's it!** Once services are running, Claude automatically uses voice when you ask naturally. No special commands needed!
 
-**First-time setup:** The first time you run `/claudio:up`, you must restart Claude Code to activate the voice-mode MCP server.
+**First-time setup:** The first time you run `/echo:up`, you must restart Claude Code to activate the voice-mode MCP server.
 
 > **Having trouble with first-time setup?** See [FIRST_TIME_SETUP.md](./FIRST_TIME_SETUP.md) for a detailed explanation of why restart is required and troubleshooting steps.
 
@@ -56,19 +60,19 @@ Voice mode plugin that enables hands-free conversation with Claude using SenseVo
 
 | Command | Description |
 |---------|-------------|
-| `/claudio:up [stt=sensevoice] [tts=qwen3-tts]` | Start voice services (installs if needed) |
-| `/claudio:down` | Stop all voice services |
-| `/claudio:status` | Display comprehensive service status |
-| `/claudio:check` | Verify complete setup and troubleshoot issues |
-| `/claudio:clean servers` | Remove server installations, keep models |
-| `/claudio:clean models` | Remove all downloaded models |
-| `/claudio:clean all` | Remove everything (complete cleanup) |
+| `/echo:up [stt=sensevoice] [tts=qwen3-tts]` | Start voice services (installs if needed) |
+| `/echo:down` | Stop all voice services |
+| `/echo:status` | Display comprehensive service status |
+| `/echo:check` | Verify complete setup and troubleshoot issues |
+| `/echo:clean servers` | Remove server installations, keep models |
+| `/echo:clean models` | Remove all downloaded models |
+| `/echo:clean all` | Remove everything (complete cleanup) |
 
 **Voice conversation**: Just ask Claude naturally! "Let's talk with voice" or "Switch to voice mode"
 
 ## How It Works
 
-The plugin integrates with Claude Code's voice-mode MCP server. Once you run `/claudio:up`:
+The plugin integrates with Claude Code's voice-mode MCP server. Once you run `/echo:up`:
 
 1. **SenseVoice** and **Qwen3-TTS** servers start in the background
 2. The **voice-mode MCP** is automatically configured in Claude Code
@@ -118,8 +122,8 @@ The voice-mode MCP handles all the complexity - you just have a natural conversa
 ```
 Voice Services Stack:
 ┌─────────────────────────────────┐
-│   Claude Code + Claudio Plugin  │
-│   (/claudio:* commands)         │
+│   Claude Code + Echo Plugin     │
+│   (/echo:* commands)           │
 └─────────────┬───────────────────┘
               │
               ▼
@@ -130,7 +134,7 @@ Voice Services Stack:
                │
     ┌──────────▼──────────────┐
     │   Local Voice Services  │
-    │   (claudio/providers/)  │
+    │   (echo/providers/)     │
     │                         │
     │ ┌─────────────────────┐ │
     │ │ SenseVoice          │ │  Port 2022
@@ -161,7 +165,7 @@ VOICEMODE_TTS_BASE_URLS="http://127.0.0.1:8004/v1"
 For higher quality TTS with custom voices (requires 8GB+ VRAM):
 ```bash
 export QWEN_TTS_MODEL="Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice"
-/claudio:up
+/echo:up
 ```
 
 Available model variants:
@@ -172,7 +176,7 @@ Available model variants:
 
 ## Installation Details
 
-### What happens during `/claudio:up`:
+### What happens during `/echo:up`:
 
 **Everything is installed and configured automatically!**
 
@@ -214,11 +218,11 @@ This makes it easy to add new providers or switch between them!
 ### Services won't start
 ```bash
 # Check status
-/claudio:status
+/echo:status
 
 # Stop and restart
-/claudio:down
-/claudio:up
+/echo:down
+/echo:up
 
 # Check logs
 tail -f /tmp/sensevoice.log
@@ -252,7 +256,7 @@ Try using CPU mode or the smaller TTS model:
 ```bash
 # Force CPU for lower memory usage
 export CUDA_VISIBLE_DEVICES=""
-/claudio:up
+/echo:up
 ```
 
 ## Advanced Usage
@@ -260,7 +264,7 @@ export CUDA_VISIBLE_DEVICES=""
 ### Switching Providers
 ```bash
 # Use specific providers
-/claudio:up stt=sensevoice tts=qwen3-tts
+/echo:up stt=sensevoice tts=qwen3-tts
 
 # Then ask Claude to use voice naturally
 # Claude will use whatever providers are currently running
@@ -269,7 +273,7 @@ export CUDA_VISIBLE_DEVICES=""
 ### Manual Provider Control
 ```bash
 # Start a specific provider manually
-cd claudio/providers/sensevoice
+cd echo/providers/sensevoice
 ./start.sh
 
 # Stop a specific provider
@@ -282,13 +286,13 @@ cd claudio/providers/sensevoice
 ### Cleanup Options
 ```bash
 # Remove servers but keep models (fast reinstall)
-/claudio:clean servers
+/echo:clean servers
 
 # Remove models to free disk space
-/claudio:clean models
+/echo:clean models
 
 # Complete cleanup
-/claudio:clean all
+/echo:clean all
 ```
 
 ## Technical Details
@@ -320,7 +324,7 @@ All service management is handled through bash scripts within the plugin directo
 
 ## Contributing
 
-This plugin is part of the Claudio project. See the main repository README for contribution guidelines.
+This plugin is part of the Echo project. See the main repository README for contribution guidelines.
 
 ## License
 
@@ -328,7 +332,7 @@ MIT License - See main repository for details.
 
 ## Support
 
-- Issues: [GitHub Issues](https://github.com/your-username/claudio/issues)
+- Issues: [GitHub Issues](https://github.com/johnhenry/clapplications/issues)
 - Documentation: See `mcp-server/ARCHITECTURE.md` for technical details
 - Voice Mode: See official Claude Code voice mode documentation
 

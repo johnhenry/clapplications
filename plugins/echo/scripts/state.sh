@@ -1,5 +1,5 @@
 #!/bin/bash
-# State management helpers for claudio plugin
+# State management helpers for echo plugin
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PLUGIN_DIR="$(dirname "$SCRIPT_DIR")"

@@ -4,32 +4,32 @@
     "name": "John Henry"
   },
   "metadata": {
-    "description": "Claude Code plugin marketplace for voice communications and other utilities",
+    "description": "Claude Code plugin marketplace for voice and autonomous skill consolidation",
     "version": "1.0.0",
     "pluginRoot": "./plugins"
   },
   "plugins": [
     {
-      "name": "claudio",
-      "source": "./plugins/claudio",
-      "description": "Voice mode for Claude Code with Whisper STT and Chatterbox TTS",
-      "version": "1.0.0",
+      "name": "echo",
+      "source": "./plugins/echo",
+      "description": "Voice mode for Claude Code with SenseVoice STT and Qwen3-TTS",
+      "version": "2.0.0",
       "author": {
         "name": "John Henry"
       },
       "category": "utilities",
       "tags": ["voice", "audio", "communication", "tts", "stt"]
     },
-    {                                                                                                              
-        "name": "sleep",                                                                                             
-        "source": "./plugins/sleep",                                                                                 
-        "description": "Autonomous skill consolidation modeled on the human sleep cycle",                            
-        "version": "2.0.0",                                                                                          
-        "author": {                                                                                                  
-            "name": "John Henry"                                                                                       
-        },                                                                                                           
-        "category": "utilities",                                                                                     
-        "tags": ["sleep", "dreams", "consolidation", "skill-improvement", "autoresearch", "meta-skills"]             
+    {
+        "name": "morpheus",
+        "source": "./plugins/morpheus",
+        "description": "Autonomous skill consolidation modeled on the human sleep cycle",
+        "version": "2.0.0",
+        "author": {
+            "name": "John Henry"
+        },
+        "category": "utilities",
+        "tags": ["sleep", "dreams", "consolidation", "skill-improvement", "autoresearch", "meta-skills"]
     }
   ]
 }

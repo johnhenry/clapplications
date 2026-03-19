@@ -1,4 +1,8 @@
-# Sleep — Claude Code Plugin
+<p align="center">
+  <img src="assets/splash-v2.svg" alt="Morpheus — God of Dreams" width="600"/>
+</p>
+
+# Morpheus — Claude Code Plugin
 
 Autonomous skill consolidation modeled on the human sleep cycle.
 
@@ -74,7 +78,7 @@ Worktree: enabled
 ## File Structure
 
 ```
-sleep/
+morpheus/
 ├── .claude-plugin/plugin.json      Manifest
 ├── skills/
 │   ├── sleep/SKILL.md              /sleep — orchestrator (the program.md)

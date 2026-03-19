@@ -1,0 +1,418 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400">
+  <defs>
+    <!-- Watercolor filters -->
+    <filter id="wc" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="4" seed="23" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="12" xChannelSelector="R" yChannelSelector="G" result="displaced"/>
+      <feGaussianBlur in="displaced" stdDeviation="1.5" result="blurred"/>
+      <feComponentTransfer in="blurred"><feFuncA type="linear" slope="0.85" intercept="0"/></feComponentTransfer>
+    </filter>
+    <filter id="wc-heavy" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="5" seed="31" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="18" xChannelSelector="R" yChannelSelector="G" result="displaced"/>
+      <feGaussianBlur in="displaced" stdDeviation="2.5" result="blurred"/>
+      <feComponentTransfer in="blurred"><feFuncA type="linear" slope="0.7" intercept="0"/></feComponentTransfer>
+    </filter>
+    <filter id="wc-light" x="-15%" y="-15%" width="130%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="3" seed="37" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="8" xChannelSelector="R" yChannelSelector="G" result="displaced"/>
+      <feGaussianBlur in="displaced" stdDeviation="1" result="blurred"/>
+      <feComponentTransfer in="blurred"><feFuncA type="linear" slope="0.9" intercept="0"/></feComponentTransfer>
+    </filter>
+    <filter id="paper" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="4" seed="5" result="paper"/>
+      <feColorMatrix in="paper" type="saturate" values="0" result="gray"/>
+      <feComponentTransfer in="gray" result="faint"><feFuncA type="linear" slope="0.1" intercept="0"/></feComponentTransfer>
+      <feBlend in="SourceGraphic" in2="faint" mode="multiply"/>
+    </filter>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="5" result="glow"/>
+      <feComposite in="SourceGraphic" in2="glow" operator="over"/>
+    </filter>
+    <filter id="glow-soft">
+      <feGaussianBlur stdDeviation="8" result="glow"/>
+      <feComposite in="SourceGraphic" in2="glow" operator="over"/>
+    </filter>
+    <filter id="ink" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="3" seed="17" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="6" xChannelSelector="R" yChannelSelector="G"/>
+      <feGaussianBlur stdDeviation="0.8"/>
+    </filter>
+    <filter id="ink-fine" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.07" numOctaves="2" seed="43" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G"/>
+      <feGaussianBlur stdDeviation="0.4"/>
+    </filter>
+    <filter id="ripple" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="8" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="8" xChannelSelector="R" yChannelSelector="G"/>
+      <feGaussianBlur stdDeviation="1.2"/>
+    </filter>
+
+    <!-- Gradients -->
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f1a15"/>
+      <stop offset="20%" stop-color="#1a2a1f"/>
+      <stop offset="45%" stop-color="#2a4a38"/>
+      <stop offset="70%" stop-color="#1f3a2a"/>
+      <stop offset="100%" stop-color="#0f2018"/>
+    </linearGradient>
+    <linearGradient id="robe" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#d4b058"/>
+      <stop offset="20%" stop-color="#c8a050"/>
+      <stop offset="50%" stop-color="#b89040"/>
+      <stop offset="80%" stop-color="#a88030"/>
+      <stop offset="100%" stop-color="#8a6820"/>
+    </linearGradient>
+    <linearGradient id="robe-shadow" x1="0.2" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a88030"/>
+      <stop offset="100%" stop-color="#6a4810"/>
+    </linearGradient>
+    <linearGradient id="robe-light" x1="0" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#e8c868"/>
+      <stop offset="100%" stop-color="#c8a050"/>
+    </linearGradient>
+    <linearGradient id="skin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f5e8d8"/>
+      <stop offset="50%" stop-color="#f0e0d0"/>
+      <stop offset="100%" stop-color="#d4b8a0"/>
+    </linearGradient>
+    <linearGradient id="hair" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6a4028"/>
+      <stop offset="30%" stop-color="#7a4a30"/>
+      <stop offset="60%" stop-color="#5a3520"/>
+      <stop offset="100%" stop-color="#3a2010"/>
+    </linearGradient>
+    <linearGradient id="hair-light" x1="0" y1="0" x2="1" y2="0.5">
+      <stop offset="0%" stop-color="#8a5838"/>
+      <stop offset="100%" stop-color="#6a4028"/>
+    </linearGradient>
+    <radialGradient id="warmLight" cx="28%" cy="38%" r="55%">
+      <stop offset="0%" stop-color="#f0d880" stop-opacity="0.3"/>
+      <stop offset="30%" stop-color="#e8c870" stop-opacity="0.2"/>
+      <stop offset="60%" stop-color="#c8a040" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#5a6a40" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="soundAura" cx="50%" cy="45%" r="50%">
+      <stop offset="0%" stop-color="#f0d888" stop-opacity="0.25"/>
+      <stop offset="30%" stop-color="#d8c070" stop-opacity="0.15"/>
+      <stop offset="60%" stop-color="#c8a860" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#8a8050" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="mountain" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3a5a48"/>
+      <stop offset="50%" stop-color="#2a4838"/>
+      <stop offset="100%" stop-color="#1a3025"/>
+    </linearGradient>
+    <linearGradient id="mountain-far" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a4a3a"/>
+      <stop offset="100%" stop-color="#1a3028"/>
+    </linearGradient>
+    <linearGradient id="ivy" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5a8a58"/>
+      <stop offset="50%" stop-color="#4a7a50"/>
+      <stop offset="100%" stop-color="#2a5030"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e8c860"/>
+      <stop offset="50%" stop-color="#c8a850"/>
+      <stop offset="100%" stop-color="#a08030"/>
+    </linearGradient>
+    <linearGradient id="gold-dark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#c8a040"/>
+      <stop offset="100%" stop-color="#806020"/>
+    </linearGradient>
+    <linearGradient id="rock" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#3a4a40"/>
+      <stop offset="50%" stop-color="#2a3a2e"/>
+      <stop offset="100%" stop-color="#1a2a20"/>
+    </linearGradient>
+
+    <!-- Robe pattern -->
+    <pattern id="chitonPattern" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
+      <rect width="16" height="16" fill="none"/>
+      <path d="M 0,8 Q 4,4 8,8 Q 12,12 16,8" stroke="#b89040" stroke-width="0.3" fill="none" opacity="0.08"/>
+      <circle cx="8" cy="8" r="1.5" fill="#c8a050" opacity="0.04"/>
+    </pattern>
+  </defs>
+
+  <!-- Paper base -->
+  <rect width="800" height="400" fill="#f5f0e8" filter="url(#paper)"/>
+
+  <!-- Forest sky - layered washes -->
+  <rect x="0" y="0" width="800" height="400" fill="url(#sky)" opacity="0.85" filter="url(#wc-heavy)"/>
+
+  <!-- Atmospheric haze layers -->
+  <ellipse cx="300" cy="120" rx="300" ry="150" fill="#2a4a38" opacity="0.15" filter="url(#wc-heavy)"/>
+  <ellipse cx="600" cy="250" rx="250" ry="180" fill="#1a3028" opacity="0.2" filter="url(#wc-heavy)"/>
+
+  <!-- Far mountain range -->
+  <path d="M 0,180 C 60,145 120,160 180,130 C 240,100 300,140 360,110 C 420,80 480,120 540,90 C 600,65 660,100 720,85 C 760,75 800,95 800,95 L 800,400 L 0,400 Z" fill="url(#mountain-far)" opacity="0.4" filter="url(#wc-heavy)"/>
+
+  <!-- Closer mountain range -->
+  <path d="M 0,220 C 80,185 140,200 200,170 C 260,145 330,180 400,155 C 470,130 530,165 600,145 C 660,128 730,150 800,140 L 800,400 L 0,400 Z" fill="url(#mountain)" opacity="0.45" filter="url(#wc-heavy)"/>
+
+  <!-- Trees on mountain silhouettes -->
+  <g filter="url(#wc)" opacity="0.3">
+    <path d="M 50,210 L 55,195 L 60,210 Z" fill="#1a3025"/>
+    <path d="M 70,205 L 76,188 L 82,205 Z" fill="#1a3025"/>
+    <path d="M 100,215 L 106,198 L 112,215 Z" fill="#1a3025"/>
+    <path d="M 680,148 L 685,133 L 690,148 Z" fill="#1a3025"/>
+    <path d="M 710,145 L 716,128 L 722,145 Z" fill="#1a3025"/>
+    <path d="M 740,150 L 745,135 L 750,150 Z" fill="#1a3025"/>
+    <path d="M 760,148 L 766,130 L 772,148 Z" fill="#1a3025"/>
+  </g>
+
+  <!-- Rocky cliff / cave entrance - more detailed -->
+  <path d="M 560,170 C 590,142 630,130 670,148 C 710,165 732,198 740,245 C 745,280 742,325 738,370 L 740,400 L 565,400 C 562,365 558,320 555,280 C 552,245 550,210 552,185 Z" fill="url(#rock)" opacity="0.65" filter="url(#wc)"/>
+  <!-- Cave shadow -->
+  <path d="M 620,175 C 640,165 660,168 675,180 C 690,195 698,218 700,245 C 702,270 700,300 695,340 L 610,340 C 608,310 605,275 604,248 C 603,220 610,195 620,175 Z" fill="#0f1a15" opacity="0.4" filter="url(#wc)"/>
+  <!-- Rock texture -->
+  <path d="M 580,200 C 590,195 595,205 588,210 C 582,215 575,208 580,200 Z" fill="#3a4a40" opacity="0.2" filter="url(#wc-light)"/>
+  <path d="M 710,230 C 718,225 722,235 716,240 C 710,245 705,235 710,230 Z" fill="#3a4a40" opacity="0.15" filter="url(#wc-light)"/>
+
+  <!-- Warm light source -->
+  <ellipse cx="280" cy="150" rx="220" ry="200" fill="url(#warmLight)" filter="url(#wc)"/>
+
+  <!-- Sound wave rings - more detailed and numerous -->
+  <g filter="url(#ripple)" opacity="0.22">
+    <ellipse cx="370" cy="200" rx="90" ry="60" fill="none" stroke="#e0c878" stroke-width="1.8"/>
+    <ellipse cx="385" cy="200" rx="130" ry="85" fill="none" stroke="#d4b870" stroke-width="1.5"/>
+    <ellipse cx="400" cy="200" rx="175" ry="110" fill="none" stroke="#c8a860" stroke-width="1.2"/>
+    <ellipse cx="415" cy="200" rx="220" ry="135" fill="none" stroke="#b89850" stroke-width="0.9"/>
+    <ellipse cx="430" cy="200" rx="270" ry="160" fill="none" stroke="#a88840" stroke-width="0.6"/>
+    <ellipse cx="445" cy="200" rx="320" ry="185" fill="none" stroke="#988030" stroke-width="0.4"/>
+  </g>
+
+  <!-- Sound aura -->
+  <ellipse cx="350" cy="220" rx="160" ry="130" fill="url(#soundAura)" filter="url(#wc)"/>
+
+  <!-- ===== ECHO FIGURE ===== -->
+  <g filter="url(#wc)">
+
+    <!-- Flowing chiton/robe - golden, dramatically draped -->
+    <path d="M 305,158 C 292,188 276,238 264,290 C 254,330 244,365 236,400 L 408,400 C 402,368 394,325 386,285 C 376,240 362,195 348,158 Z" fill="url(#robe)" opacity="0.88"/>
+
+    <!-- Robe ornamental overlay -->
+    <path d="M 305,158 C 292,188 276,238 264,290 C 254,330 244,365 236,400 L 408,400 C 402,368 394,325 386,285 C 376,240 362,195 348,158 Z" fill="url(#chitonPattern)" opacity="0.5"/>
+
+    <!-- Robe deep folds -->
+    <path d="M 298,180 C 290,215 278,260 268,305 C 262,328 254,360 248,392 L 262,392 C 266,362 274,330 280,305 C 290,262 300,218 306,185 Z" fill="url(#robe-shadow)" opacity="0.4"/>
+    <path d="M 288,200 C 282,228 272,268 264,308 C 260,328 254,358 248,392 L 240,392 C 246,360 254,328 260,305 C 270,265 280,225 286,198 Z" fill="#8a6820" opacity="0.3"/>
+
+    <path d="M 344,168 C 354,205 366,252 376,295 C 382,318 390,355 398,395 L 385,395 C 378,358 372,320 366,292 C 356,250 346,205 340,170 Z" fill="url(#robe-shadow)" opacity="0.38"/>
+    <path d="M 352,180 C 360,212 370,258 380,302 C 386,325 394,360 402,396 L 408,396 C 400,362 392,326 386,300 C 376,255 364,210 356,182 Z" fill="url(#robe-light)" opacity="0.2"/>
+
+    <!-- Robe hem - flowing edges -->
+    <path d="M 236,400 C 242,386 238,372 230,385 C 225,394 232,400 236,400 Z" fill="#b89040" opacity="0.35"/>
+    <path d="M 248,400 C 245,392 240,382 237,394 C 236,398 245,400 248,400 Z" fill="#a08030" opacity="0.25"/>
+    <path d="M 408,400 C 402,383 406,368 416,382 C 422,392 412,400 408,400 Z" fill="#b89040" opacity="0.35"/>
+    <path d="M 396,400 C 398,390 402,380 406,392 C 407,396 398,400 396,400 Z" fill="#a08030" opacity="0.25"/>
+
+    <!-- Inner lining flashes -->
+    <path d="M 258,320 C 254,338 250,358 246,378 L 254,378 C 256,360 260,340 264,322 Z" fill="#e8c868" opacity="0.15"/>
+    <path d="M 392,315 C 396,335 400,358 406,380 L 398,380 C 394,358 390,335 388,318 Z" fill="#e8c868" opacity="0.15"/>
+
+    <!-- Left arm extended - reaching, yearning, dramatic gesture -->
+    <path d="M 295,178 C 268,172 238,162 208,150 C 185,142 162,132 145,120 C 135,112 128,106 124,102 C 122,100 126,100 134,106 C 148,116 168,128 192,138 C 220,150 252,160 280,170 Z" fill="url(#robe)" opacity="0.78"/>
+    <!-- Sleeve fold -->
+    <path d="M 275,172 C 250,166 225,158 200,148 C 180,140 162,130 150,122 C 160,128 178,138 198,146 C 222,156 248,164 270,170 Z" fill="url(#robe-shadow)" opacity="0.3"/>
+    <!-- Ornate cuff -->
+    <path d="M 145,120 C 140,115 134,110 130,106 L 124,102 C 126,104 130,108 134,112 C 138,116 142,118 145,120 Z" fill="url(#gold)" opacity="0.3" filter="url(#ink-fine)"/>
+
+    <!-- Right arm raised to mouth - calling gesture -->
+    <path d="M 352,168 C 365,158 376,148 384,140 C 390,134 394,130 396,126 C 397,124 395,124 390,128 C 384,134 375,142 365,152 C 358,158 354,164 352,168 Z" fill="url(#robe)" opacity="0.78"/>
+    <path d="M 358,162 C 368,154 378,144 386,136 C 380,142 370,150 362,158 Z" fill="url(#robe-shadow)" opacity="0.25"/>
+
+    <!-- Hands - elongated, graceful -->
+    <!-- Left hand reaching -->
+    <g filter="url(#ink-fine)">
+      <path d="M 124,102 C 120,98 115,94 112,92 C 110,91 109,93 111,96 C 114,100 118,104 122,106 Z" fill="url(#skin)" opacity="0.72"/>
+      <path d="M 112,92 C 108,88 104,86 102,87 C 101,89 104,92 108,94 Z" fill="url(#skin)" opacity="0.65"/>
+      <path d="M 114,94 C 110,90 106,88 105,90 C 104,92 108,95 112,96 Z" fill="url(#skin)" opacity="0.6"/>
+      <path d="M 116,96 C 113,93 110,91 109,93 C 108,95 112,98 115,98 Z" fill="url(#skin)" opacity="0.55"/>
+    </g>
+
+    <!-- Right hand cupped near mouth -->
+    <g filter="url(#ink-fine)">
+      <path d="M 396,126 C 400,122 404,118 405,116 C 406,114 404,114 400,118 C 398,120 396,124 396,126 Z" fill="url(#skin)" opacity="0.72"/>
+      <path d="M 405,116 C 408,112 411,110 410,108 C 409,107 406,110 404,114 Z" fill="url(#skin)" opacity="0.65"/>
+      <path d="M 403,114 C 406,110 408,108 407,106 C 406,106 404,108 402,112 Z" fill="url(#skin)" opacity="0.6"/>
+    </g>
+
+    <!-- Neck -->
+    <path d="M 318,156 C 320,144 324,136 328,128 C 332,136 336,144 338,156 Z" fill="url(#skin)" opacity="0.72"/>
+    <path d="M 322,152 C 326,148 330,148 334,152" stroke="#d4b8a0" stroke-width="0.4" fill="none" opacity="0.2"/>
+
+    <!-- Face - turned slightly, mouth open, Kojima-style longing beauty -->
+    <ellipse cx="328" cy="112" rx="22" ry="28" fill="url(#skin)" opacity="0.78" filter="url(#ink)"/>
+
+    <!-- Facial structure -->
+    <path d="M 310,118 C 314,125 320,132 328,136 C 334,138 340,136 345,132 C 350,126 354,118 356,112" fill="url(#skin)" opacity="0.1"/>
+
+    <!-- Eyes - wide, sorrowful, green, yearning -->
+    <ellipse cx="318" cy="108" rx="5" ry="3.5" fill="#f5ede5" opacity="0.8"/>
+    <ellipse cx="336" cy="107" rx="5" ry="3.5" fill="#f5ede5" opacity="0.8"/>
+    <!-- Irises - green like forest -->
+    <circle cx="319" cy="108" r="2.5" fill="#4a7a48" opacity="0.8"/>
+    <circle cx="337" cy="107" r="2.5" fill="#4a7a48" opacity="0.8"/>
+    <!-- Inner iris detail -->
+    <circle cx="319" cy="108" r="1.5" fill="#3a6838" opacity="0.5"/>
+    <circle cx="337" cy="107" r="1.5" fill="#3a6838" opacity="0.5"/>
+    <!-- Pupils -->
+    <circle cx="319.5" cy="107.5" r="1" fill="#1a2a1a"/>
+    <circle cx="337.5" cy="106.5" r="1" fill="#1a2a1a"/>
+    <!-- Light reflections -->
+    <circle cx="318" cy="107" r="0.5" fill="#f0e8d8" opacity="0.6"/>
+    <circle cx="336" cy="106" r="0.5" fill="#f0e8d8" opacity="0.6"/>
+    <!-- Lashes -->
+    <path d="M 312,109 C 311,107 310,105 309,103" stroke="#3a2010" stroke-width="0.6" fill="none" opacity="0.4"/>
+    <path d="M 314,107 C 313,105 312,103 311.5,102" stroke="#3a2010" stroke-width="0.4" fill="none" opacity="0.3"/>
+    <path d="M 342,108 C 343,106 344,103 345,102" stroke="#3a2010" stroke-width="0.6" fill="none" opacity="0.4"/>
+    <path d="M 340,106 C 341,104 342,102 342.5,101" stroke="#3a2010" stroke-width="0.4" fill="none" opacity="0.3"/>
+    <!-- Brows - expressive, slightly raised -->
+    <path d="M 311,103 C 316,100 321,99 326,101" stroke="#5a3520" stroke-width="0.8" fill="none" opacity="0.35"/>
+    <path d="M 330,100 C 335,98 340,99 345,102" stroke="#5a3520" stroke-width="0.8" fill="none" opacity="0.35"/>
+
+    <!-- Nose -->
+    <path d="M 327,108 C 326,112 325,116 324,119 C 323,120 325,121 327,120" stroke="#c9a88a" stroke-width="0.6" fill="none" opacity="0.25"/>
+
+    <!-- Mouth - open, calling out, voice emerging -->
+    <ellipse cx="327" cy="126" rx="6" ry="4.5" fill="#a86868" opacity="0.55"/>
+    <ellipse cx="327" cy="125" rx="5" ry="3" fill="#8a4a4a" opacity="0.4"/>
+    <ellipse cx="327" cy="124.5" rx="3.5" ry="1.8" fill="#704040" opacity="0.25"/>
+    <!-- Upper lip -->
+    <path d="M 322,124 C 324,122 327,121.5 330,122 C 332,123 333,124 333,125" stroke="#b07068" stroke-width="0.5" fill="none" opacity="0.3"/>
+
+    <!-- Hair - flowing auburn waves, more detailed -->
+    <path d="M 306,102 C 298,84 300,62 310,48 C 320,36 334,32 346,36 C 358,40 366,52 366,68 C 366,80 362,96 354,108 C 350,95 346,78 340,66 C 334,56 324,50 316,55 C 310,60 308,76 308,92 Z" fill="url(#hair)" opacity="0.88" filter="url(#ink)"/>
+
+    <!-- Hair strands left -->
+    <path d="M 310,48 C 298,60 288,82 284,110 C 282,128 284,148 290,168 C 296,185 302,198 308,208 C 302,195 296,178 292,160 C 288,138 287,118 290,100 C 294,78 302,60 312,50 Z" fill="url(#hair)" opacity="0.55" filter="url(#ink)"/>
+    <path d="M 304,58 C 294,72 286,92 283,118 C 281,138 284,160 290,178 C 286,160 283,140 285,120 C 288,96 296,75 306,60 Z" fill="url(#hair-light)" opacity="0.25" filter="url(#ink)"/>
+
+    <!-- Hair strands right -->
+    <path d="M 366,68 C 376,80 384,100 386,125 C 387,142 384,162 378,180 C 374,192 370,200 366,206 C 370,195 374,178 376,160 C 378,140 377,118 374,98 C 372,82 368,72 366,70 Z" fill="url(#hair)" opacity="0.55" filter="url(#ink)"/>
+    <path d="M 370,76 C 378,88 384,105 386,128 C 387,145 384,165 380,180 C 383,162 386,142 385,125 C 383,102 377,85 372,78 Z" fill="url(#hair-light)" opacity="0.25" filter="url(#ink)"/>
+
+    <!-- Hair highlights -->
+    <path d="M 335,40 C 340,37 346,38 350,42" stroke="#8a5838" stroke-width="0.6" fill="none" opacity="0.2"/>
+    <path d="M 318,48 C 322,44 328,43 332,45" stroke="#8a5838" stroke-width="0.5" fill="none" opacity="0.15"/>
+
+    <!-- Laurel wreath crown - detailed -->
+    <g filter="url(#ink)" opacity="0.7">
+      <!-- Left leaves -->
+      <path d="M 310,52 C 304,45 302,38 306,34 C 309,32 312,35 311,42 C 310,47 310,50 310,52 Z" fill="url(#ivy)"/>
+      <path d="M 306,46 C 300,40 297,34 300,30 C 304,27 308,32 306,38 Z" fill="url(#ivy)" opacity="0.8"/>
+      <path d="M 302,40 C 296,35 294,28 298,25 C 302,23 304,28 302,34 Z" fill="url(#ivy)" opacity="0.6"/>
+      <!-- Right leaves -->
+      <path d="M 352,48 C 358,40 362,32 358,28 C 355,26 352,30 352,38 C 352,43 352,46 352,48 Z" fill="url(#ivy)"/>
+      <path d="M 356,42 C 362,36 366,28 362,24 C 358,22 354,26 356,34 Z" fill="url(#ivy)" opacity="0.8"/>
+      <path d="M 360,36 C 366,30 368,23 364,20 C 360,18 358,24 360,30 Z" fill="url(#ivy)" opacity="0.6"/>
+      <!-- Small berries -->
+      <circle cx="308" cy="36" r="1.2" fill="#5a3a60" opacity="0.4"/>
+      <circle cx="354" cy="32" r="1.2" fill="#5a3a60" opacity="0.4"/>
+      <circle cx="304" cy="30" r="1" fill="#5a3a60" opacity="0.3"/>
+      <!-- Laurel tie -->
+      <path d="M 312,50 C 320,46 330,45 340,46 C 348,47 354,50 356,52" stroke="#4a7a50" stroke-width="0.5" fill="none" opacity="0.3"/>
+    </g>
+
+    <!-- Necklace / golden torque -->
+    <g filter="url(#ink-fine)" opacity="0.4">
+      <path d="M 316,152 C 322,146 328,144 334,145 C 340,146 346,150 350,154" stroke="url(#gold)" stroke-width="1" fill="none"/>
+      <circle cx="333" cy="148" r="2.5" fill="#6a8a48" opacity="0.5"/>
+      <circle cx="333" cy="148" r="1.2" fill="#8aaa68" opacity="0.4"/>
+    </g>
+
+    <!-- Sash / belt -->
+    <g filter="url(#ink-fine)" opacity="0.35">
+      <path d="M 300,200 C 312,194 328,192 344,194 C 354,196 362,200 368,205" stroke="url(#gold)" stroke-width="1.2" fill="none"/>
+      <path d="M 302,203 C 314,197 328,195 344,197 C 352,199 360,202 366,207" stroke="url(#gold-dark)" stroke-width="0.6" fill="none"/>
+      <circle cx="334" cy="196" r="3" fill="#6a8a48" opacity="0.35"/>
+      <circle cx="334" cy="196" r="1.5" fill="#8aaa68" opacity="0.25"/>
+    </g>
+  </g>
+
+  <!-- Fading echo reflections - ghostly duplicates fading right -->
+  <g filter="url(#wc-heavy)" opacity="0.14">
+    <path d="M 480,178 C 470,210 462,255 455,305 C 452,340 448,370 445,400 L 575,400 C 572,372 566,335 560,298 C 552,255 540,210 528,178 Z" fill="url(#robe)"/>
+    <ellipse cx="504" cy="138" rx="17" ry="23" fill="url(#skin)"/>
+    <path d="M 495,130 C 490,118 492,105 498,96 C 504,88 512,86 518,90 C 524,94 526,105 525,115 Z" fill="url(#hair)" opacity="0.6"/>
+  </g>
+  <g filter="url(#wc-heavy)" opacity="0.07">
+    <path d="M 585,195 C 578,222 572,260 567,310 C 565,340 563,370 561,400 L 665,400 C 663,372 658,340 654,308 C 648,262 640,222 632,195 Z" fill="url(#robe)"/>
+    <ellipse cx="608" cy="158" rx="14" ry="20" fill="url(#skin)"/>
+  </g>
+  <g filter="url(#wc-heavy)" opacity="0.03">
+    <path d="M 670,210 C 665,232 660,264 657,310 C 656,338 655,368 654,400 L 738,400 C 737,370 734,340 732,308 C 728,264 722,232 718,210 Z" fill="url(#robe)"/>
+    <ellipse cx="694" cy="178" rx="11" ry="16" fill="url(#skin)"/>
+  </g>
+
+  <!-- Ivy and nature foreground - more detailed -->
+  <g filter="url(#wc)" opacity="0.5">
+    <!-- Left ivy cluster -->
+    <path d="M 0,355 C 15,345 25,348 40,342 C 35,352 22,354 12,358 C 5,360 2,358 0,356 Z" fill="url(#ivy)"/>
+    <path d="M 40,342 C 55,332 68,336 82,330 C 78,340 64,344 50,346 C 42,348 38,346 40,342 Z" fill="#3a6a40"/>
+    <path d="M 82,330 C 92,325 102,328 112,324 C 108,332 98,336 88,338 C 84,339 82,335 82,330 Z" fill="url(#ivy)" opacity="0.8"/>
+    <!-- Tendrils -->
+    <path d="M 20,350 C 18,345 15,342 18,340" stroke="#3a6a40" stroke-width="0.5" fill="none" opacity="0.4"/>
+    <path d="M 60,338 C 58,334 55,330 58,328" stroke="#3a6a40" stroke-width="0.5" fill="none" opacity="0.4"/>
+
+    <!-- Right ivy cluster -->
+    <path d="M 700,360 C 718,350 735,354 752,348 C 748,358 733,362 718,365 C 708,368 702,365 700,360 Z" fill="url(#ivy)"/>
+    <path d="M 752,348 C 768,340 782,344 800,338 L 800,352 C 785,354 772,352 758,356 C 752,358 750,354 752,348 Z" fill="#3a6a40"/>
+    <path d="M 730,355 C 742,348 755,350 765,346 C 762,354 750,358 740,360 C 734,362 730,358 730,355 Z" fill="url(#ivy)" opacity="0.7"/>
+  </g>
+
+  <!-- Wildflowers in foreground -->
+  <g filter="url(#ink)" opacity="0.4">
+    <g transform="translate(50,380)">
+      <line x1="0" y1="0" x2="-1" y2="-15" stroke="#3a5a30" stroke-width="0.6"/>
+      <circle cx="-1" cy="-17" r="2.5" fill="#e8d890" opacity="0.5"/>
+    </g>
+    <g transform="translate(140,375)">
+      <line x1="0" y1="0" x2="1" y2="-18" stroke="#3a5a30" stroke-width="0.7"/>
+      <circle cx="1" cy="-20" r="3" fill="#d8c880" opacity="0.45"/>
+      <circle cx="1" cy="-20" r="1" fill="#e8d890" opacity="0.3"/>
+    </g>
+    <g transform="translate(660,378)">
+      <line x1="0" y1="0" x2="-1" y2="-12" stroke="#3a5a30" stroke-width="0.5"/>
+      <circle cx="-1" cy="-14" r="2" fill="#c8b870" opacity="0.4"/>
+    </g>
+    <g transform="translate(730,382)">
+      <line x1="0" y1="0" x2="1" y2="-10" stroke="#3a5a30" stroke-width="0.5"/>
+      <circle cx="1" cy="-12" r="2.5" fill="#d8c880" opacity="0.35"/>
+    </g>
+  </g>
+
+  <!-- Small birds / swallows in distance -->
+  <g filter="url(#ink-fine)" opacity="0.25">
+    <path d="M 180,60 C 183,57 186,58 188,56 C 186,58 183,59 180,60 Z" fill="#1a2a1f"/>
+    <path d="M 180,60 C 177,57 174,58 172,56 C 174,58 177,59 180,60 Z" fill="#1a2a1f"/>
+    <path d="M 220,50 C 222,48 224,49 226,47 C 224,49 222,50 220,50 Z" fill="#1a2a1f"/>
+    <path d="M 220,50 C 218,48 216,49 214,47 C 216,49 218,50 220,50 Z" fill="#1a2a1f"/>
+    <path d="M 200,70 C 202,68 204,69 206,67 C 204,69 202,70 200,70 Z" fill="#1a2a1f"/>
+    <path d="M 200,70 C 198,68 196,69 194,67 C 196,69 198,70 200,70 Z" fill="#1a2a1f"/>
+  </g>
+
+  <!-- Ornate border flourishes -->
+  <g filter="url(#ink)" opacity="0.25">
+    <path d="M 20,385 C 42,374 62,378 82,372 C 102,366 122,362 142,366 C 122,370 102,372 82,375 C 62,378 42,380 25,386 Z" fill="url(#gold)"/>
+    <path d="M 142,366 C 158,362 172,364 182,368 C 172,367 160,365 150,367 Z" fill="url(#gold)" opacity="0.6"/>
+    <path d="M 25,384 C 18,378 15,370 20,365 C 24,362 28,366 26,372 C 24,376 22,380 24,383 Z" fill="url(#gold)" opacity="0.5"/>
+
+    <path d="M 780,385 C 758,374 738,378 718,372 C 698,366 678,362 658,366 C 678,370 698,372 718,375 C 738,378 758,380 775,386 Z" fill="url(#gold)"/>
+    <path d="M 658,366 C 642,362 628,364 618,368 C 628,367 640,365 650,367 Z" fill="url(#gold)" opacity="0.6"/>
+    <path d="M 775,384 C 782,378 785,370 780,365 C 776,362 772,366 774,372 C 776,376 778,380 776,383 Z" fill="url(#gold)" opacity="0.5"/>
+
+    <path d="M 20,15 C 42,26 62,22 82,28 C 102,33 122,30 142,26 C 122,28 102,30 82,26 C 62,22 42,24 25,18 Z" fill="url(#gold)"/>
+    <path d="M 25,16 C 18,22 15,30 20,35 C 24,38 28,34 26,28 C 24,24 22,20 24,17 Z" fill="url(#gold)" opacity="0.5"/>
+
+    <path d="M 780,15 C 758,26 738,22 718,28 C 698,33 678,30 658,26 C 678,28 698,30 718,26 C 738,22 758,24 775,18 Z" fill="url(#gold)"/>
+    <path d="M 775,16 C 782,22 785,30 780,35 C 776,38 772,34 774,28 C 776,24 778,20 776,17 Z" fill="url(#gold)" opacity="0.5"/>
+  </g>
+
+  <!-- Title -->
+  <text x="400" y="384" text-anchor="middle" font-family="'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif" font-size="20" letter-spacing="10" fill="#d4c090" opacity="0.75" filter="url(#ink)">ECHO</text>
+  <text x="400" y="397" text-anchor="middle" font-family="'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif" font-size="9" letter-spacing="5" fill="#8a8060" opacity="0.5">NYMPH OF THE VOICE</text>
+</svg>

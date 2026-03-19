@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <filter id="wc" x="-15%" y="-15%" width="130%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="3" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feGaussianBlur in="d" stdDeviation="0.5"/>
+    </filter>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="g"/>
+      <feComposite in="SourceGraphic" in2="g" operator="over"/>
+    </filter>
+    <radialGradient id="bg" cx="50%" cy="40%" r="55%">
+      <stop offset="0%" stop-color="#3a2868"/>
+      <stop offset="100%" stop-color="#1a0f33"/>
+    </radialGradient>
+    <radialGradient id="moon" cx="45%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#e8dff8" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#7b68ae" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="robe" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6b52a8"/>
+      <stop offset="100%" stop-color="#3a2568"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <circle cx="32" cy="32" r="30" fill="url(#bg)"/>
+
+  <!-- Moon glow -->
+  <circle cx="42" cy="18" r="16" fill="url(#moon)" filter="url(#glow)"/>
+  <circle cx="43" cy="17" r="5" fill="#e8dff8" opacity="0.2"/>
+
+  <!-- Stars -->
+  <g opacity="0.5">
+    <circle cx="14" cy="12" r="0.8" fill="#e8dff8"/>
+    <circle cx="22" cy="8" r="0.6" fill="#d0c0f0"/>
+    <circle cx="52" cy="10" r="0.7" fill="#e8dff8"/>
+    <circle cx="10" cy="24" r="0.5" fill="#c8b8e8"/>
+  </g>
+
+  <!-- Simplified Morpheus figure -->
+  <g filter="url(#wc)">
+    <!-- Robe -->
+    <path d="M 28,28 C 26,34 23,42 21,50 C 20,54 19,58 18,62 L 46,62 C 45,58 43,53 42,48 C 40,42 37,34 35,28 Z" fill="url(#robe)" opacity="0.85"/>
+
+    <!-- Head -->
+    <ellipse cx="31.5" cy="24" rx="5" ry="6.5" fill="#d4b8a0" opacity="0.7"/>
+
+    <!-- Closed eyes -->
+    <path d="M 28.5,23 C 29.5,22.5 30.5,22.5 31,23" stroke="#2a1a3e" stroke-width="0.5" fill="none" opacity="0.6"/>
+    <path d="M 32.5,22.8 C 33.5,22.3 34.5,22.3 35,22.8" stroke="#2a1a3e" stroke-width="0.5" fill="none" opacity="0.6"/>
+
+    <!-- Hair -->
+    <path d="M 26.5,21 C 25,16 26,12 30,10 C 34,9 37,12 37,17 C 37,19 36,22 35.5,23 C 35,19 33,15 31,14 C 29,13 27,15 27,18 Z" fill="#1a1a2e" opacity="0.8"/>
+
+    <!-- Crown horns -->
+    <path d="M 27,13 C 25,9 26,6 28,7 C 29,8 28,11 27.5,13 Z" fill="#c8a850" opacity="0.5"/>
+    <path d="M 36,12 C 38,8 37,5 35,6 C 34,7 35,10 35.5,12 Z" fill="#c8a850" opacity="0.5"/>
+
+    <!-- Poppy -->
+    <ellipse cx="22" cy="44" rx="3" ry="2" fill="#9b2335" opacity="0.6"/>
+    <circle cx="22" cy="44" r="0.8" fill="#1a0a10" opacity="0.5"/>
+  </g>
+
+  <!-- Dream wisps -->
+  <g filter="url(#glow)" opacity="0.3">
+    <circle cx="48" cy="35" r="2" fill="#b898e0"/>
+    <circle cx="15" cy="38" r="1.5" fill="#a888d0"/>
+    <circle cx="50" cy="48" r="1.2" fill="#9878c0"/>
+  </g>
+
+  <!-- Border ring -->
+  <circle cx="32" cy="32" r="30" fill="none" stroke="#c8a850" stroke-width="0.5" opacity="0.3"/>
+</svg>

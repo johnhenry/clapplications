@@ -23,7 +23,7 @@ if [[ "$STT_HEALTH" =~ ^running ]]; then
     echo "   ✅ $STT_PROVIDER is running (PID: $PID)"
 else
     echo "   ❌ $STT_PROVIDER is not running"
-    echo "      Run: /claudio:up"
+    echo "      Run: /echo:up"
     exit 1
 fi
 
@@ -42,7 +42,7 @@ if [[ "$TTS_HEALTH" =~ ^running ]]; then
     echo "   ✅ $TTS_PROVIDER is running (PID: $PID)"
 else
     echo "   ❌ $TTS_PROVIDER is not running"
-    echo "      Run: /claudio:up"
+    echo "      Run: /echo:up"
     exit 1
 fi
 
@@ -54,7 +54,7 @@ if claude mcp get voice-mode &>/dev/null; then
     echo "   ✅ voice-mode MCP is configured"
 else
     echo "   ❌ voice-mode MCP is not configured"
-    echo "      Run: /claudio:up"
+    echo "      Run: /echo:up"
     exit 1
 fi
 
@@ -65,7 +65,7 @@ echo "4️⃣  Checking if voice-mode MCP is loaded..."
 echo "   ⚠️  Cannot verify if MCP is loaded in current session"
 echo "      MCP servers only load when Claude Code starts"
 echo ""
-echo "   If you just configured voice-mode or recently ran /claudio:up,"
+echo "   If you just configured voice-mode or recently ran /echo:up,"
 echo "   you need to restart Claude Code for voice tools to work."
 echo ""
 
@@ -79,11 +79,11 @@ echo "✅ MCP configuration is present"
 echo ""
 echo "To use voice conversations:"
 echo "  1. Make sure you've restarted Claude Code at least once since"
-echo "     running /claudio:up"
+echo "     running /echo:up"
 echo "  2. Ask Claude naturally: \"Let's have a voice conversation\""
 echo ""
 echo "If voice doesn't work, try:"
 echo "  • Restart Claude Code (MCP servers load on startup)"
-echo "  • Run /claudio:status to check service status"
+echo "  • Run /echo:status to check service status"
 echo "  • Check logs: /tmp/sensevoice.log and /tmp/qwen3-tts.log"
 echo ""

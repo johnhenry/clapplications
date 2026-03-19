@@ -12,7 +12,7 @@ case "$TARGET" in
     servers|models|all)
         ;;
     *)
-        echo "Usage: /claudio:clean {servers|models|all}"
+        echo "Usage: /echo:clean {servers|models|all}"
         echo ""
         echo "Options:"
         echo "  servers  - Remove server installations, keep models"
@@ -22,7 +22,7 @@ case "$TARGET" in
         ;;
 esac
 
-echo "🧹 Cleaning up Claudio: $TARGET"
+echo "🧹 Cleaning up Echo: $TARGET"
 echo ""
 
 # Stop services first
@@ -61,14 +61,14 @@ echo ""
 case "$TARGET" in
     servers)
         echo "Servers removed, models preserved."
-        echo "Run /claudio:up to reinstall."
+        echo "Run /echo:up to reinstall."
         ;;
     models)
         echo "Models removed, servers preserved."
-        echo "Models will redownload on next /claudio:up"
+        echo "Models will redownload on next /echo:up"
         ;;
     all)
         echo "All components removed."
-        echo "Run /claudio:up for fresh installation."
+        echo "Run /echo:up for fresh installation."
         ;;
 esac

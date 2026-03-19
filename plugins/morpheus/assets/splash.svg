@@ -1,0 +1,196 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400">
+  <defs>
+    <!-- Watercolor texture filters -->
+    <filter id="watercolor" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="4" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="12" xChannelSelector="R" yChannelSelector="G" result="displaced"/>
+      <feGaussianBlur in="displaced" stdDeviation="1.5" result="blurred"/>
+      <feComponentTransfer in="blurred">
+        <feFuncA type="linear" slope="0.85" intercept="0"/>
+      </feComponentTransfer>
+    </filter>
+    <filter id="watercolor-heavy" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="5" seed="13" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="18" xChannelSelector="R" yChannelSelector="G" result="displaced"/>
+      <feGaussianBlur in="displaced" stdDeviation="2.5" result="blurred"/>
+      <feComponentTransfer in="blurred">
+        <feFuncA type="linear" slope="0.7" intercept="0"/>
+      </feComponentTransfer>
+    </filter>
+    <filter id="paper-texture" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="4" seed="2" result="paper"/>
+      <feColorMatrix in="paper" type="saturate" values="0" result="gray"/>
+      <feComponentTransfer in="gray" result="faint">
+        <feFuncA type="linear" slope="0.08" intercept="0"/>
+      </feComponentTransfer>
+      <feBlend in="SourceGraphic" in2="faint" mode="multiply"/>
+    </filter>
+    <filter id="soft-glow">
+      <feGaussianBlur stdDeviation="6" result="glow"/>
+      <feComposite in="SourceGraphic" in2="glow" operator="over"/>
+    </filter>
+    <filter id="ink-bleed" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="3" seed="42" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="6" xChannelSelector="R" yChannelSelector="G"/>
+      <feGaussianBlur stdDeviation="0.8"/>
+    </filter>
+
+    <!-- Gradients -->
+    <radialGradient id="moonGlow" cx="50%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#c8b8e8" stop-opacity="0.5"/>
+      <stop offset="40%" stop-color="#7b68ae" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#2a1b4e" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="nightSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a0f33"/>
+      <stop offset="40%" stop-color="#2d1f5e"/>
+      <stop offset="70%" stop-color="#3a2468"/>
+      <stop offset="100%" stop-color="#1f1040"/>
+    </linearGradient>
+    <linearGradient id="robeGrad" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#4a3680"/>
+      <stop offset="30%" stop-color="#6b52a8"/>
+      <stop offset="60%" stop-color="#3d2b6b"/>
+      <stop offset="100%" stop-color="#241550"/>
+    </linearGradient>
+    <linearGradient id="skinTone" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8d5c4"/>
+      <stop offset="100%" stop-color="#c9a88a"/>
+    </linearGradient>
+    <linearGradient id="hairGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="50%" stop-color="#2d2d5e"/>
+      <stop offset="100%" stop-color="#0f0f1a"/>
+    </linearGradient>
+    <radialGradient id="dreamMist" cx="60%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#b8a0e0" stop-opacity="0.4"/>
+      <stop offset="60%" stop-color="#7b5cb8" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#4a3080" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="poppyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9b2335"/>
+      <stop offset="50%" stop-color="#7a1a2a"/>
+      <stop offset="100%" stop-color="#5c1020"/>
+    </linearGradient>
+    <radialGradient id="starGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#e8dff8" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#c8b8e8" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Paper background -->
+  <rect width="800" height="400" fill="#f5f0e8" filter="url(#paper-texture)"/>
+
+  <!-- Night sky wash -->
+  <rect x="0" y="0" width="800" height="400" fill="url(#nightSky)" opacity="0.85" filter="url(#watercolor-heavy)"/>
+
+  <!-- Moon glow -->
+  <ellipse cx="600" cy="100" rx="180" ry="160" fill="url(#moonGlow)" filter="url(#watercolor)"/>
+  <circle cx="620" cy="90" r="45" fill="#e8dff8" opacity="0.25" filter="url(#watercolor)"/>
+  <circle cx="620" cy="90" r="28" fill="#f0eaf8" opacity="0.15" filter="url(#watercolor)"/>
+
+  <!-- Stars -->
+  <g filter="url(#soft-glow)" opacity="0.6">
+    <circle cx="120" cy="45" r="1.5" fill="#e8dff8"/>
+    <circle cx="250" cy="70" r="1" fill="#d0c0f0"/>
+    <circle cx="380" cy="30" r="1.2" fill="#e8dff8"/>
+    <circle cx="500" cy="55" r="0.8" fill="#c8b8e8"/>
+    <circle cx="700" cy="40" r="1.3" fill="#e8dff8"/>
+    <circle cx="150" cy="120" r="0.7" fill="#d8c8f0"/>
+    <circle cx="450" cy="80" r="1.1" fill="#e0d0f0"/>
+    <circle cx="680" cy="150" r="0.9" fill="#d0c0e8"/>
+    <circle cx="90" cy="85" r="1" fill="#e8dff8"/>
+    <circle cx="550" cy="25" r="0.8" fill="#c8b8e8"/>
+  </g>
+
+  <!-- Dream mist background -->
+  <ellipse cx="350" cy="250" rx="300" ry="180" fill="url(#dreamMist)" filter="url(#watercolor-heavy)"/>
+
+  <!-- Morpheus figure - elongated, flowing, Kojima-inspired -->
+  <g filter="url(#watercolor)">
+    <!-- Flowing robe base - dramatic cascading fabric -->
+    <path d="M 320,140 C 310,160 290,200 275,250 C 260,300 240,350 220,400 L 420,400 C 410,350 395,300 385,260 C 375,220 365,180 350,140 Z" fill="url(#robeGrad)" opacity="0.9"/>
+
+    <!-- Robe folds and draping - ornate layers -->
+    <path d="M 310,170 C 300,200 285,240 270,290 C 265,310 255,340 245,380 L 260,380 C 270,340 280,300 290,260 C 300,220 308,190 315,170 Z" fill="#5a4290" opacity="0.5"/>
+    <path d="M 345,155 C 355,190 370,240 380,280 C 385,300 395,340 400,380 L 385,380 C 380,340 372,300 365,270 C 355,230 348,185 342,155 Z" fill="#3a2568" opacity="0.5"/>
+
+    <!-- Robe trailing wisps - ethereal fabric edges -->
+    <path d="M 220,400 C 230,380 225,360 210,395 C 205,400 215,400 220,400 Z" fill="#4a3680" opacity="0.4"/>
+    <path d="M 420,400 C 410,375 415,355 430,390 C 435,400 425,400 420,400 Z" fill="#4a3680" opacity="0.4"/>
+
+    <!-- Extended flowing sleeve left -->
+    <path d="M 295,180 C 270,190 240,195 210,200 C 190,205 170,215 160,230 C 155,240 165,235 180,225 C 200,215 230,205 260,195 C 280,190 293,185 298,180 Z" fill="url(#robeGrad)" opacity="0.8"/>
+
+    <!-- Extended flowing sleeve right -->
+    <path d="M 355,175 C 380,182 410,188 440,195 C 460,200 485,210 500,225 C 510,235 500,230 485,220 C 465,208 440,198 415,190 C 390,183 362,178 355,175 Z" fill="url(#robeGrad)" opacity="0.8"/>
+
+    <!-- Hands - delicate, elongated fingers -->
+    <path d="M 160,230 C 155,235 148,240 145,238 C 142,236 144,232 150,228 C 153,225 158,225 160,230 Z" fill="url(#skinTone)" opacity="0.8"/>
+    <path d="M 500,225 C 505,230 512,235 510,238 C 508,240 504,237 500,232 Z" fill="url(#skinTone)" opacity="0.8"/>
+
+    <!-- Left hand holding poppy -->
+    <g transform="translate(135,232)">
+      <path d="M 0,0 C -3,-8 -5,-18 -4,-25 C -3,-28 -1,-30 1,-28 C 3,-25 2,-18 0,-8 Z" fill="#3a5a30" opacity="0.7" filter="url(#ink-bleed)"/>
+      <ellipse cx="-2" cy="-28" rx="8" ry="6" fill="url(#poppyGrad)" opacity="0.8" filter="url(#ink-bleed)"/>
+      <ellipse cx="2" cy="-30" rx="6" ry="5" fill="#b83040" opacity="0.6" filter="url(#ink-bleed)"/>
+      <circle cx="0" cy="-28" r="2" fill="#1a0a10" opacity="0.7"/>
+    </g>
+
+    <!-- Neck -->
+    <path d="M 320,140 C 322,130 325,122 330,115 C 335,122 338,130 340,140 Z" fill="url(#skinTone)" opacity="0.7"/>
+
+    <!-- Face - elongated, melancholic beauty -->
+    <ellipse cx="330" cy="100" rx="22" ry="28" fill="url(#skinTone)" opacity="0.75" filter="url(#ink-bleed)"/>
+
+    <!-- Eyes - closed, dreaming -->
+    <path d="M 320,96 C 323,94 327,94 330,96" stroke="#2a1a3e" stroke-width="1" fill="none" opacity="0.7"/>
+    <path d="M 333,95 C 336,93 340,93 343,95" stroke="#2a1a3e" stroke-width="1" fill="none" opacity="0.7"/>
+    <!-- Eyelashes -->
+    <path d="M 319,97 C 318,95 317,93 316,92" stroke="#2a1a3e" stroke-width="0.5" fill="none" opacity="0.5"/>
+    <path d="M 344,96 C 345,94 346,92 347,91" stroke="#2a1a3e" stroke-width="0.5" fill="none" opacity="0.5"/>
+
+    <!-- Lips - small, gentle -->
+    <path d="M 326,108 C 328,106 332,106 334,108 C 332,110 328,110 326,108 Z" fill="#c4868a" opacity="0.5"/>
+
+    <!-- Hair - flowing, ornate, dark waves -->
+    <path d="M 308,90 C 300,75 298,55 305,40 C 312,30 322,25 335,28 C 348,30 358,40 360,55 C 362,65 358,80 352,95 C 348,85 345,70 340,60 C 335,50 325,45 318,50 C 312,55 310,70 310,85 Z" fill="url(#hairGrad)" opacity="0.85" filter="url(#ink-bleed)"/>
+
+    <!-- Hair flowing strands -->
+    <path d="M 305,40 C 295,50 285,70 280,100 C 278,115 282,130 288,140 C 285,125 283,110 286,95 C 290,75 298,55 305,45 Z" fill="#1a1a2e" opacity="0.6" filter="url(#ink-bleed)"/>
+    <path d="M 360,55 C 370,65 378,85 380,110 C 381,125 378,140 372,150 C 376,135 378,118 375,100 C 372,80 365,65 360,58 Z" fill="#1a1a2e" opacity="0.6" filter="url(#ink-bleed)"/>
+
+    <!-- Crown/ornament - horn-like crescent -->
+    <path d="M 312,42 C 305,30 300,15 310,8 C 315,5 320,10 318,22 C 316,30 314,38 313,42 Z" fill="#c8a850" opacity="0.6" filter="url(#ink-bleed)"/>
+    <path d="M 348,38 C 355,25 362,12 355,5 C 350,2 345,8 346,20 C 347,28 348,35 348,38 Z" fill="#c8a850" opacity="0.6" filter="url(#ink-bleed)"/>
+    <!-- Crown jewel -->
+    <circle cx="330" cy="32" r="3" fill="#8860c8" opacity="0.7"/>
+    <circle cx="330" cy="32" r="1.5" fill="#b890f0" opacity="0.5"/>
+  </g>
+
+  <!-- Floating dream fragments around figure -->
+  <g filter="url(#watercolor-heavy)" opacity="0.4">
+    <!-- Dream wisps -->
+    <path d="M 180,150 C 190,140 200,145 195,155 C 190,165 175,160 180,150 Z" fill="#a888d0"/>
+    <path d="M 470,160 C 480,150 495,155 488,168 C 482,178 465,172 470,160 Z" fill="#9878c0"/>
+    <path d="M 200,280 C 210,270 220,278 215,288 C 210,298 195,290 200,280 Z" fill="#b898e0"/>
+    <path d="M 450,270 C 462,262 472,270 465,282 C 458,292 442,282 450,270 Z" fill="#a080c8"/>
+
+    <!-- Floating poppy petals -->
+    <ellipse cx="520" cy="180" rx="8" ry="5" fill="#9b2335" opacity="0.5" transform="rotate(-20,520,180)"/>
+    <ellipse cx="180" cy="320" rx="6" ry="4" fill="#7a1a2a" opacity="0.4" transform="rotate(35,180,320)"/>
+    <ellipse cx="460" cy="340" rx="7" ry="4" fill="#9b2335" opacity="0.3" transform="rotate(-45,460,340)"/>
+  </g>
+
+  <!-- Ornate border flourishes -->
+  <g filter="url(#ink-bleed)" opacity="0.3">
+    <path d="M 30,380 C 50,370 70,375 90,370 C 110,365 130,360 150,365 C 140,368 120,370 100,372 C 80,374 60,378 40,382 Z" fill="#c8a850"/>
+    <path d="M 770,380 C 750,370 730,375 710,370 C 690,365 670,360 650,365 C 660,368 680,370 700,372 C 720,374 740,378 760,382 Z" fill="#c8a850"/>
+    <path d="M 30,20 C 50,30 70,25 90,30 C 110,35 130,32 150,28 C 130,30 110,32 90,28 C 70,24 50,26 35,22 Z" fill="#c8a850"/>
+    <path d="M 770,20 C 750,30 730,25 710,30 C 690,35 670,32 650,28 C 670,30 690,32 710,28 C 730,24 750,26 765,22 Z" fill="#c8a850"/>
+  </g>
+
+  <!-- Title text -->
+  <text x="400" y="385" text-anchor="middle" font-family="'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif" font-size="18" letter-spacing="8" fill="#c8b8e8" opacity="0.7" filter="url(#ink-bleed)">MORPHEUS</text>
+  <text x="400" y="398" text-anchor="middle" font-family="'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif" font-size="9" letter-spacing="4" fill="#8878a8" opacity="0.5">GOD OF DREAMS</text>
+</svg>

@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <filter id="wc" x="-15%" y="-15%" width="130%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="3" seed="23" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feGaussianBlur in="d" stdDeviation="0.5"/>
+    </filter>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="g"/>
+      <feComposite in="SourceGraphic" in2="g" operator="over"/>
+    </filter>
+    <radialGradient id="bg" cx="40%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#2a4a38"/>
+      <stop offset="100%" stop-color="#0f2018"/>
+    </radialGradient>
+    <radialGradient id="light" cx="35%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#e8c870" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#5a6a40" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="robe" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#c8a050"/>
+      <stop offset="100%" stop-color="#8a6820"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <circle cx="32" cy="32" r="30" fill="url(#bg)"/>
+
+  <!-- Warm light -->
+  <circle cx="26" cy="28" r="18" fill="url(#light)" filter="url(#glow)"/>
+
+  <!-- Sound wave rings -->
+  <g opacity="0.2" filter="url(#wc)">
+    <ellipse cx="38" cy="30" rx="14" ry="10" fill="none" stroke="#d4b870" stroke-width="0.8"/>
+    <ellipse cx="42" cy="30" rx="20" ry="14" fill="none" stroke="#c8a860" stroke-width="0.6"/>
+    <ellipse cx="46" cy="30" rx="26" ry="18" fill="none" stroke="#b89850" stroke-width="0.4"/>
+  </g>
+
+  <!-- Simplified Echo figure -->
+  <g filter="url(#wc)">
+    <!-- Robe -->
+    <path d="M 25,30 C 23,36 21,44 19,52 C 18,56 17,60 16,64 L 42,64 C 41,59 39,53 38,48 C 36,41 33,35 31,30 Z" fill="url(#robe)" opacity="0.8"/>
+
+    <!-- Head -->
+    <ellipse cx="28" cy="22" rx="5" ry="6" fill="#d4b8a0" opacity="0.7"/>
+
+    <!-- Eyes - open, expressive -->
+    <ellipse cx="26" cy="21" rx="1.5" ry="1" fill="#f5ede5" opacity="0.7"/>
+    <ellipse cx="30.5" cy="20.8" rx="1.5" ry="1" fill="#f5ede5" opacity="0.7"/>
+    <circle cx="26.2" cy="21" r="0.7" fill="#4a6848" opacity="0.7"/>
+    <circle cx="30.7" cy="20.8" r="0.7" fill="#4a6848" opacity="0.7"/>
+
+    <!-- Mouth open - calling -->
+    <ellipse cx="28" cy="25.5" rx="1.8" ry="1.2" fill="#a86868" opacity="0.5"/>
+
+    <!-- Hair -->
+    <path d="M 23,19 C 22,14 23.5,10 27,8.5 C 31,7.5 34,10 34,14 C 34,16 33,19 32.5,21 C 32,17 30,13 28,12 C 26,11.5 24,13 23.5,16 Z" fill="#5a3520" opacity="0.8"/>
+
+    <!-- Laurel -->
+    <path d="M 24,11 C 22,8.5 23,6 25,6.5 C 26,7 25,9 24.5,11 Z" fill="#4a7a50" opacity="0.5"/>
+    <path d="M 33,10 C 35,7.5 34,5 32,5.5 C 31,6 32,8.5 32.5,10 Z" fill="#4a7a50" opacity="0.5"/>
+
+    <!-- Hand near mouth -->
+    <path d="M 34,24 C 35,22 36,20 35,19.5 C 34,19 33,21 33,23 Z" fill="#d4b8a0" opacity="0.6"/>
+  </g>
+
+  <!-- Ghost echoes -->
+  <g filter="url(#glow)" opacity="0.1">
+    <path d="M 42,34 C 41,38 39,44 38,50 L 52,50 C 51,44 49,38 47,34 Z" fill="#c8a050"/>
+    <ellipse cx="44.5" cy="30" rx="3" ry="4" fill="#d4b8a0"/>
+  </g>
+  <g filter="url(#glow)" opacity="0.05">
+    <path d="M 50,38 C 49,42 48,46 47,52 L 58,52 C 57,46 55,42 54,38 Z" fill="#c8a050"/>
+    <ellipse cx="52" cy="34" rx="2.5" ry="3" fill="#d4b8a0"/>
+  </g>
+
+  <!-- Border ring -->
+  <circle cx="32" cy="32" r="30" fill="none" stroke="#c8a050" stroke-width="0.5" opacity="0.3"/>
+</svg>

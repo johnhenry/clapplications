@@ -2,20 +2,20 @@
 
 ## The Problem
 
-When users run `/claudio:up` for the first time, voice conversations don't work immediately. This document explains why and how we've improved the experience.
+When users run `/echo:up` for the first time, voice conversations don't work immediately. This document explains why and how we've improved the experience.
 
 ## Root Cause
 
 The issue stems from how Claude Code loads MCP servers:
 
 1. **MCP servers load only at startup** - They cannot be loaded dynamically while Claude Code is running
-2. **Configuration != Loading** - The `/claudio:up` script configures the voice-mode MCP server, but this doesn't make it available in the current session
+2. **Configuration != Loading** - The `/echo:up` script configures the voice-mode MCP server, but this doesn't make it available in the current session
 3. **Silent failure** - Users try to use voice features immediately after setup, but the tools aren't available yet because the MCP server isn't loaded
 
 ## The User Experience Problem
 
 ### What happened:
-1. User runs `/claudio:up` (first time)
+1. User runs `/echo:up` (first time)
 2. Script installs SenseVoice and Qwen3-TTS
 3. Script configures voice-mode MCP server
 4. Script says "Voice services ready!"
@@ -48,7 +48,7 @@ The issue stems from how Claude Code loads MCP servers:
       3. Ask Claude: "Let's have a voice conversation"
    ```
 
-2. **New `/claudio:check` command** - Validates complete setup:
+2. **New `/echo:check` command** - Validates complete setup:
    - Checks if STT service is running
    - Checks if TTS service is running
    - Checks if MCP is configured
@@ -98,14 +98,14 @@ To verify the fix works:
 
 1. Clean install:
    ```bash
-   /claudio:clean all
-   /claudio:up
+   /echo:clean all
+   /echo:up
    ```
    Expected: Clear "RESTART REQUIRED" message
 
 2. Check status:
    ```bash
-   /claudio:check
+   /echo:check
    ```
    Expected: Shows all services running, warns about restart
 

@@ -76,5 +76,5 @@ echo ""
 if [[ "$stt_health" =~ ^running ]] && [[ "$tts_health" =~ ^running ]]; then
     echo "✅ Ready for voice mode"
 else
-    echo "⚠️  Services not running. Use /claudio:up to start them"
+    echo "⚠️  Services not running. Use /echo:up to start them"
 fi

@@ -4,20 +4,20 @@ A marketplace for Claude Code plugins focused on voice communications and utilit
 
 ## Available Plugins
 
-### Claudio
+### Echo
 
-Voice mode for Claude Code with Whisper STT and Chatterbox TTS.
+Voice mode for Claude Code with SenseVoice STT and Qwen3-TTS.
 
 **Commands:**
-- `/claudio:up` - Start voice services
-- `/claudio:down` - Stop voice services
-- `/claudio:status` - Check service status
-- `/claudio:clean` - Clean up voice service data
+- `/echo:up` - Start voice services
+- `/echo:down` - Stop voice services
+- `/echo:status` - Check service status
+- `/echo:clean` - Clean up voice service data
 
 **MCP Configurations:**
 - voice-mode MCP server integration
 
-### Sleep
+### Morpheus
 
 Autonomous skill consolidation modeled on the human sleep cycle. Tracks skill usage, builds pressure over time, and runs N1→N2→N3→REM consolidation cycles that scan past conversations, generate edge-case scenarios, test patches via subagent eval, and propose evidence-backed improvements.
 
@@ -51,8 +51,8 @@ Or if using a different Git host:
 Once the marketplace is added, install plugins:
 
 ```bash
-/plugin install claudio@clapplications
-/plugin install sleep@clapplications
+/plugin install echo@clapplications
+/plugin install morpheus@clapplications
 ```
 
 ### Local Development
@@ -61,7 +61,7 @@ For testing locally before publishing:
 
 ```bash
 /plugin marketplace add /Users/johnhenry/Projects/clapplications
-/plugin install claudio@clapplications
+/plugin install echo@clapplications
 ```
 
 ## For Plugin Developers
@@ -73,13 +73,13 @@ clapplications/
 ├── .claude-plugin/
 │   └── marketplace.json        # Marketplace catalog
 └── plugins/
-    ├── claudio/
+    ├── echo/
     │   ├── .claude-plugin/
     │   │   └── plugin.json     # Plugin manifest
     │   ├── commands/           # Plugin commands
     │   ├── scripts/            # Plugin scripts
     │   └── mcp.json           # MCP configuration
-    └── sleep/
+    └── morpheus/
         ├── .claude-plugin/
         │   └── plugin.json     # Plugin manifest
         ├── skills/             # Sleep cycle skills
@@ -125,8 +125,8 @@ Add to `.claude/settings.json` for automatic marketplace configuration:
     }
   },
   "enabledPlugins": {
-    "claudio@clapplications": true,
-    "sleep@clapplications": true
+    "echo@clapplications": true,
+    "morpheus@clapplications": true
   }
 }
 ```

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Graceful shutdown helper for claudio servers
+# Graceful shutdown helper for echo voice servers
 
 # Gracefully stop a process
 # Args: $1 = PID, $2 = process name (for logging)
