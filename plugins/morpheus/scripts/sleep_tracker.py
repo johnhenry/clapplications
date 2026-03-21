@@ -218,7 +218,7 @@ def cmd_record():
             relevance = data.get("relevance", {})
         except: pass
     for path, entry in state["skills"].items():
-        r = relevance.get(entry["name"], 0.1)  # Default ambient
+        r = relevance.get(entry["name"], 0.02)  # Default ambient (low for unused skills)
         entry["conversations_since_sleep"] += r
         entry["pressure"] = pressure(entry["conversations_since_sleep"], entry["tau"])
     save(state)

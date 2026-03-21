@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/sleep_tracker.py record"
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/relevance_scorer.py"
           }
         ]
       }
@@ -40,7 +40,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/sleep_tracker.py record"
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/scripts/relevance_scorer.py"
           }
         ]
       }
